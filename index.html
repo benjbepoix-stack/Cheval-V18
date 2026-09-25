@@ -1,0 +1,2064 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#5b4638">
+<title>Mon espace équin</title>
+<style>
+:root{
+  --bg:#eee9e2;--card:#fbf9f6;--soft:#eee7df;--soft2:#e4dbd1;
+  --ink:#2c2824;--muted:#786e66;--line:#d8cec3;
+  --brown:#5a4537;--brown2:#795f4e;--cream:#f7f0e7;
+  --green:#6f8169;--greenbg:#e0e7dc;--red:#a35e55;--redbg:#f0d9d5;
+  --shadow:0 7px 22px rgba(67,51,39,.07);--shadow2:0 16px 38px rgba(67,51,39,.12)
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+body{padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(14px,env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.985)}
+.hidden{display:none!important}
+.app{width:min(100%,620px);margin:auto;padding:8px 14px 112px}
+
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 13px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:43px;height:43px;border-radius:15px;background:var(--brown);display:grid;place-items:center;padding:8px;box-shadow:var(--shadow)}
+.brand-mark svg{width:100%;height:100%;fill:none;stroke:#ead9c8;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.brand-kicker{font-size:8px;letter-spacing:.18em;font-weight:900;color:var(--muted)}
+.brand-name{font:400 21px Georgia,serif;margin-top:3px}
+.theme-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--brown2);display:grid;place-items:center}
+.theme-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+
+/* Hero */
+.hero{position:relative;height:285px;border-radius:28px;overflow:hidden;background:linear-gradient(145deg,#806b5b,#4b382c 62%,#32251e);color:#fff;box-shadow:var(--shadow2)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,13,9,.02),rgba(20,13,9,.7))}
+.hero-copy{position:absolute;z-index:2;left:20px;top:20px}
+.eyebrow{font-size:8px;letter-spacing:.2em;font-weight:900;opacity:.7}
+.hero h1{font:400 39px/1 Georgia,serif;margin:7px 0 4px;letter-spacing:-.04em}
+.hero-sub{font-size:10px;opacity:.78}
+.hero-logo{position:absolute;z-index:1;right:18px;top:44px;width:220px;height:190px;opacity:.25}
+.hero-logo svg{width:100%;height:100%;fill:none;stroke:#f4e9de;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.hero-bottom{position:absolute;z-index:2;left:17px;right:17px;bottom:16px;display:flex;justify-content:space-between;align-items:end;gap:10px}
+.hero-caption{font:400 17px Georgia,serif}.hero-caption small{display:block;font:500 9px -apple-system,BlinkMacSystemFont,sans-serif;opacity:.7;margin-top:4px}
+.hero-pill{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.1);font-size:9px;font-weight:850}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.section{margin-top:18px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 9px}
+.title{font-size:17px;font-weight:900;letter-spacing:-.02em}
+.link{border:0;background:transparent;color:var(--brown2);font-size:10px;font-weight:850;padding:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:14px 6px;text-align:center}
+.stat strong{display:block;font-size:17px;letter-spacing:-.04em}.stat span{display:block;font-size:8px;color:var(--muted);font-weight:750;margin-top:5px}
+.next{display:grid;grid-template-columns:45px minmax(0,1fr) auto;gap:11px;align-items:center;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);margin-top:12px}
+.icon-box{width:45px;height:45px;border-radius:15px;background:var(--soft);color:var(--brown2);display:grid;place-items:center;flex:none}
+.icon-box svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.kicker{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:900}
+.row-title{font-size:12px;font-weight:900}.row-sub{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.35}
+.countdown{min-width:61px;padding:8px 8px;border-radius:13px;background:var(--brown);color:#fff;text-align:center}.countdown b{display:block;font-size:12px}.countdown span{font-size:8px;opacity:.7}
+.list{padding:0 14px}.list-row{display:grid;grid-template-columns:43px minmax(0,1fr) auto 54px;gap:10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}.list-row:first-child{border-top:0}
+.amount{font-size:11px;font-weight:900;white-space:nowrap;text-align:right}
+.status{display:inline-flex;margin-top:4px;padding:4px 7px;border-radius:999px;font-size:7px;font-weight:900}.paid{background:var(--greenbg);color:var(--green)}.due{background:var(--redbg);color:var(--red)}
+.delete-btn{width:27px;height:32px;border:0;background:transparent;color:#a3978e;font-size:19px;line-height:1}
+.row-actions{display:flex;align-items:center;justify-content:flex-end;gap:2px;min-width:52px}
+.edit-btn,.delete-btn{width:25px;height:32px;border:0;background:transparent;color:var(--muted);font-size:17px;line-height:1;padding:0;display:grid;place-items:center}
+.edit-btn{color:var(--brown);font-size:16px}
+.edit-btn:active,.delete-btn:active{transform:scale(.92)}
+
+.empty{padding:20px;text-align:center;color:var(--muted);font-size:10px}
+.carrot{width:43px;height:43px;border:0;border-radius:14px;background:var(--brown);color:#fff;font-size:20px;display:grid;place-items:center;box-shadow:0 7px 15px rgba(80,58,43,.14)}
+.chart{padding:16px}.chart-top{display:flex;align-items:end;justify-content:space-between}.total{font-size:27px;font-weight:950;letter-spacing:-.05em}.caption{font-size:9px;color:var(--muted);margin-top:3px}
+.chart-body{display:flex;align-items:center;gap:17px;margin-top:14px}.donut{width:116px;height:116px;border-radius:50%;background:conic-gradient(#6a4e3d 0 42%,#bca695 42% 61%,#d2c0af 61% 74%,#998375 74% 84%,#cbb8a5 84% 92%,#e2d8ce 92%);position:relative;flex:none}.donut:after{content:"";position:absolute;inset:26px;background:var(--card);border-radius:50%}.legend{display:grid;gap:7px;flex:1}.legend-row{display:flex;justify-content:space-between;gap:8px;font-size:9px}.legend-left{display:flex;align-items:center;gap:6px}.legend-dot{width:8px;height:8px;border-radius:50%;background:#9b8878}
+
+/* Pages */
+.page-kicker{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:900}
+.page-title{font:400 34px/1 Georgia,serif;letter-spacing:-.045em;margin:5px 0}
+.page-sub{font-size:10px;color:var(--muted);line-height:1.45;margin-bottom:14px}
+.segment{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:var(--soft2);padding:4px;border-radius:14px;margin-bottom:12px}.segment button{border:0;background:transparent;color:var(--muted);border-radius:10px;min-height:35px;font-size:9px;font-weight:900}.segment button.active{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(60,45,35,.07)}
+.finance-summary{padding:15px}.summary-line{display:flex;justify-content:space-between;align-items:end}.summary-line b{font-size:26px}.summary-line span{font-size:9px;color:var(--muted)}.progress{height:6px;background:var(--soft2);border-radius:999px;overflow:hidden;margin-top:11px}.progress i{height:100%;display:block;background:var(--brown);border-radius:999px;width:0}
+.add-line{display:flex;align-items:center;justify-content:space-between;margin:17px 2px 9px}.tiny{font-size:9px;color:var(--muted);margin-top:3px}
+
+/* Planning */
+.week{padding:14px}.week-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}.week-title{font-size:17px;font-weight:900}.week-nav{display:flex;gap:4px}.week-nav button{width:33px;height:33px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink);font-size:18px}
+.day{display:grid;grid-template-columns:44px 42px minmax(0,1fr) 14px;gap:9px;align-items:center;min-height:65px;border-top:1px solid var(--line);padding:8px 0}.day:first-child{border-top:0}.day.today{background:var(--soft);border-radius:14px;margin:2px 0;padding-left:8px;padding-right:8px;border-top:0}
+.dayname{font-size:8px;text-transform:uppercase;color:var(--muted);font-weight:900}.daynum{font-size:15px;font-weight:900;margin-top:2px}.activity-select{width:100%;height:43px;border:1px solid var(--line);border-radius:13px;background:var(--soft);color:var(--ink);padding:0 9px;font-size:10px;font-weight:850;outline:none}.chevron{color:var(--muted);font-size:14px}
+.activity-list{padding:9px 12px;display:flex;flex-wrap:wrap;gap:2px}.activity-chip{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border-radius:999px;padding:7px 9px;color:var(--brown2);font-size:8px;font-weight:850}.activity-chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* Profile */
+.profile{padding:16px}.profile-head{display:flex;align-items:center;gap:13px}.profile-mark{width:72px;height:72px;border-radius:23px;background:var(--brown);display:grid;place-items:center;padding:12px}.profile-mark svg{width:100%;height:100%;fill:none;stroke:#ead9c8;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.profile-name{font:400 28px Georgia,serif}.profile-meta{font-size:9px;color:var(--muted);margin-top:5px}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.info{background:var(--soft);border-radius:13px;padding:11px}.info span{font-size:8px;color:var(--muted);display:block}.info b{font-size:11px;display:block;margin-top:4px}.profile-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--soft2);padding:4px;border-radius:13px;margin-top:14px}.profile-tabs button{border:0;background:transparent;color:var(--muted);min-height:34px;border-radius:10px;font-size:9px;font-weight:900}.profile-tabs button.active{background:var(--card);color:var(--ink)}.note{background:var(--soft);border-radius:13px;padding:13px;font-size:10px;line-height:1.5;color:var(--brown2);min-height:105px;margin-top:9px}.full-btn{width:100%;height:44px;border:1px solid var(--line);border-radius:13px;background:var(--soft);color:var(--ink);font-size:10px;font-weight:900;margin-top:10px}
+
+/* Bottom nav */
+.bottom{position:fixed;z-index:50;left:50%;bottom:max(9px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(calc(100% - 20px),600px);height:70px;padding:7px;display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:#4d392e;border-radius:24px;box-shadow:0 15px 38px rgba(44,30,21,.25);border:1px solid rgba(255,255,255,.08)}
+.bottom button{border:0;background:transparent;color:#d8ccc1;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:8px;font-weight:900}.bottom button.active{background:#6b5040;color:#fff}.nav-svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* Modal */
+.modal-backdrop{position:fixed;z-index:100;inset:0;background:rgba(39,28,21,.54);display:none;align-items:flex-end;padding:0}.modal-backdrop.open{display:flex}.modal{width:min(100%,620px);max-height:88vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-bottom:0;border-radius:25px 25px 0 0;padding:18px;margin:0 auto;box-shadow:0 -10px 35px rgba(40,27,19,.16)}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.modal-title{font:400 24px Georgia,serif}.close-btn{width:38px;height:38px;border:0;border-radius:50%;background:var(--soft);color:var(--ink);font-size:20px;display:grid;place-items:center}.form{display:grid;gap:10px}.field{display:grid;gap:5px}.field label{font-size:8px;color:var(--muted);font-weight:900}.field input,.field select,.field textarea{width:100%;min-height:42px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);padding:9px 10px;outline:none}.field textarea{min-height:70px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}.primary,.secondary{height:45px;border-radius:13px;font-size:10px;font-weight:900}.primary{border:0;background:var(--brown);color:#fff}.secondary{border:1px solid var(--line);background:var(--soft);color:var(--ink)}
+.manage-row{display:flex;align-items:center;gap:7px;padding:9px 0;border-top:1px solid var(--line)}.manage-row:first-child{border-top:0}.manage-row>span{flex:1;font-size:10px;font-weight:800}.mini-btn{width:31px;height:31px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--ink)}
+.toast{position:fixed;z-index:150;left:50%;bottom:91px;transform:translate(-50%,8px);opacity:0;background:var(--brown);color:#fff;border-radius:999px;padding:9px 13px;font-size:9px;font-weight:900;transition:.18s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:390px){.app{padding-left:11px;padding-right:11px}.hero{height:270px}.hero h1{font-size:35px}.day{grid-template-columns:41px 39px minmax(0,1fr) 12px;gap:7px}.activity-select{font-size:9px}.bottom{height:68px}}
+</style>
+
+<style id="v9-overrides">
+:root{
+ --bg:#101525;--card:#171d30;--soft:#202840;--soft2:#283149;
+ --ink:#f7f8fb;--muted:#98a0b9;--line:#303a55;
+ --brown:#27d9a1;--brown2:#27d9a1;--cream:#dff8ef;
+ --green:#49a34a;--greenbg:#173f39;--red:#ef7d78;--redbg:#40262b;
+ --shadow:0 8px 22px rgba(0,0,0,.10);--shadow2:0 18px 40px rgba(0,0,0,.18)
+}
+:root.light{
+ --bg:#ffffff;--card:#ffffff;--soft:#f1f4f8;--soft2:#e8edf3;
+ --ink:#222a49;--muted:#7f879e;--line:#dce1e9;
+ --brown:#27b88d;--brown2:#168e70;--cream:#dff8ef;
+ --green:#3d933b;--greenbg:#e4f2e2;--red:#e87870;--redbg:#f8e6e4;
+ --shadow:0 6px 18px rgba(31,42,68,.055);--shadow2:0 16px 34px rgba(31,42,68,.09)
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)!important;color:var(--ink)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;overflow-x:hidden}
+body{min-height:100vh;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.app{width:min(100%,560px);margin:auto;padding:16px 15px 108px}
+.header{display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:16px!important;padding:0!important}
+.brand{display:block!important}
+.brand-mark{display:none!important}
+.brand-kicker{font-size:9px!important;letter-spacing:.18em!important;color:var(--muted)!important}
+.brand-name{font:500 24px/1 Georgia,serif!important;color:var(--ink)!important;margin-top:4px!important}
+.theme-btn{width:43px!important;height:43px!important;border:0!important;border-radius:14px!important;background:var(--soft)!important;color:var(--ink)!important}
+.theme-btn svg{width:19px!important;height:19px!important}
+
+.hero{height:245px!important;border-radius:24px!important;background:linear-gradient(145deg,#1d2842,#111827 65%,#0c1220)!important;box-shadow:none!important;border:1px solid var(--line)!important}
+:root.light .hero{background:linear-gradient(145deg,#eef4f8,#e5ebf2 65%,#dfe7ef)!important;color:#222a49!important}
+.hero:after{background:linear-gradient(180deg,rgba(10,15,25,.02),rgba(10,15,25,.66))!important}
+:root.light .hero:after{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(205,216,229,.35))!important}
+.hero-copy{left:20px!important;top:19px!important}
+.eyebrow{font-size:8px!important;letter-spacing:.2em!important}
+.hero h1{font-size:39px!important;margin:7px 0 4px!important}
+.hero-sub{font-size:10px!important}
+.hero-logo{display:none!important}
+.hero-bottom{left:19px!important;right:19px!important;bottom:17px!important}
+.hero-caption{font-size:16px!important}
+.hero-pill{background:rgba(39,217,161,.14)!important;border-color:rgba(39,217,161,.24)!important;color:#8df1d1!important}
+
+.section{margin-top:15px!important}
+.title{font-size:15px!important}
+.stats{gap:7px!important}
+.stat{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:15px!important;padding:13px 5px!important;box-shadow:none!important}
+.stat strong{font-size:16px!important}.stat span{font-size:8px!important;color:var(--muted)!important}
+.card{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:18px!important;box-shadow:none!important}
+.next{grid-template-columns:42px minmax(0,1fr) auto!important;padding:12px!important;margin-top:10px!important;background:var(--card)!important;border-color:var(--line)!important;box-shadow:none!important}
+.icon-box{width:42px!important;height:42px!important;border-radius:13px!important;background:var(--soft)!important;color:var(--brown2)!important}
+.icon-box svg{display:none!important}
+.type-dot{width:9px;height:9px;border-radius:50%;background:var(--brown2);display:block}
+.kicker{font-size:7px!important}.row-title{font-size:11px!important}.row-sub{font-size:9px!important;line-height:1.4!important}
+.countdown{min-width:55px!important;padding:7px 7px!important;border-radius:11px!important;background:var(--brown)!important;color:#071b16!important}
+:root.light .countdown{color:#fff!important}
+.countdown b{font-size:11px!important}.countdown span{font-size:7px!important}
+.list{padding:0 13px!important}
+.list-row{grid-template-columns:42px minmax(0,1fr) auto 54px!important;gap:9px!important;padding:11px 0!important;min-width:0}
+.amount{font-size:10px!important}
+.delete-btn{width:25px!important;height:32px!important;font-size:18px!important;color:var(--muted)!important}
+.status{font-size:7px!important}
+.empty{padding:18px!important;font-size:9px!important}
+.carrot{width:40px!important;height:40px!important;border-radius:12px!important;background:var(--brown)!important;color:#071b16!important;box-shadow:none!important;font-size:18px!important}
+:root.light .carrot{color:#fff!important}
+
+.page-kicker{font-size:8px!important;letter-spacing:.18em!important}
+.page-title{font-size:32px!important;margin:4px 0!important}
+.page-sub{font-size:9px!important;line-height:1.5!important;margin-bottom:12px!important}
+.segment{background:var(--soft)!important;border:1px solid var(--line)!important}
+.segment button{font-size:8px!important;min-height:34px!important}.segment button.active{background:var(--card)!important;color:var(--ink)!important}
+.finance-summary{padding:14px!important}
+.week{padding:12px!important}
+.week-title{font-size:15px!important}
+.week-nav button{background:var(--soft)!important;border-color:var(--line)!important;color:var(--ink)!important}
+.day{grid-template-columns:42px 1fr 14px!important;gap:8px!important;min-height:61px!important;padding:7px 0!important}
+.day.today{padding:7px!important}
+.day .icon-box{display:none!important}
+.activity-select{height:42px!important;border-color:var(--line)!important;background:var(--soft)!important;color:var(--ink)!important;font-size:10px!important}
+.activity-list{padding:9px 10px!important;gap:4px!important}
+.activity-chip{background:var(--soft)!important;color:var(--ink)!important;border:1px solid var(--line)!important;font-size:8px!important}
+.activity-chip svg{display:none!important}
+
+.profile{padding:15px!important}
+.profile-mark{display:none!important}
+.profile-head{padding-bottom:4px!important}
+.profile-name{font-size:28px!important}
+.profile-meta{font-size:9px!important}
+.info{background:var(--soft)!important}
+.profile-tabs{background:var(--soft)!important}
+.profile-tabs button.active{background:var(--card)!important;color:var(--ink)!important}
+.note{background:var(--soft)!important;color:var(--ink)!important}
+.full-btn{background:var(--soft)!important;color:var(--ink)!important;border-color:var(--line)!important}
+
+.bottom{height:67px!important;background:var(--surface,var(--card))!important;background:var(--card)!important;border:1px solid var(--line)!important;border-radius:22px!important;box-shadow:0 12px 30px rgba(0,0,0,.18)!important}
+.bottom button{color:var(--muted)!important;font-size:8px!important}.bottom button.active{background:var(--soft)!important;color:var(--ink)!important}
+.nav-svg{width:19px!important;height:19px!important}
+
+.modal-backdrop{background:rgba(0,0,0,.62)!important;align-items:flex-end!important}
+.modal{width:min(100%,560px)!important;max-height:min(86vh,720px)!important;background:var(--card)!important;border:1px solid var(--line)!important;border-bottom:0!important;border-radius:22px 22px 0 0!important;padding:17px!important}
+.modal-title{font-size:22px!important}.close-btn{background:var(--soft)!important;color:var(--ink)!important}
+.field input,.field select,.field textarea{background:var(--soft)!important;border-color:var(--line)!important;color:var(--ink)!important}
+.primary{background:var(--brown)!important;color:#061a15!important}.secondary{background:var(--soft)!important;color:var(--ink)!important;border-color:var(--line)!important}
+:root.light .primary{color:#fff!important}
+.toast{background:var(--brown)!important;color:#061a15!important}.theme-btn:focus,.bottom button:focus,.carrot:focus,.primary:focus,.secondary:focus,.close-btn:focus,.activity-select:focus{outline:2px solid var(--brown);outline-offset:2px}
+
+/* Monthly chart */
+.month-chart{padding:14px 12px 12px!important;overflow:hidden}
+.month-chart-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:10px}
+.month-chart-title{font-size:14px;font-weight:900}.month-chart-total{font-size:11px;font-weight:900;color:var(--muted)}
+.month-bars{height:165px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;align-items:end;border-bottom:1px solid var(--line);padding:8px 2px 0}
+.month-col{height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;min-width:0}
+.month-value{font-size:7px;color:var(--muted);height:14px;display:flex;align-items:center;white-space:nowrap}
+.month-bar-wrap{height:118px;width:100%;display:flex;align-items:end;justify-content:center}
+.month-bar{width:min(18px,72%);min-height:3px;border-radius:6px 6px 2px 2px;background:var(--brown);transition:height .25s ease}
+.month-col.current .month-bar{background:var(--blue,#4f83ff)}
+.month-label{font-size:7px;color:var(--muted);font-weight:800;height:20px;display:flex;align-items:center}
+.month-col.current .month-label{color:var(--ink)}
+.month-empty{height:1px!important;background:transparent!important}
+.chart-sub{font-size:8px;color:var(--muted);margin-top:8px}
+
+@media(max-width:390px){
+ .app{padding-left:11px;padding-right:11px}
+ .hero{height:235px!important}
+ .hero h1{font-size:35px!important}
+ .list-row{grid-template-columns:40px minmax(0,1fr) auto 54px!important;gap:7px!important}
+ .bottom{height:65px!important}
+ .month-bars{gap:3px}
+ .month-bar{width:70%}
+}
+</style>
+
+
+<style id="v9-layout-fixes">
+.row-title,.row-sub,.dayname,.activity-select,.page-sub,.title,.month-chart-title{overflow-wrap:anywhere;min-width:0}
+.list-row>div:nth-child(2){min-width:0}
+select{max-width:100%}
+</style>
+
+
+<style id="v10-equine-palette">
+:root{
+  --bg:#211d1a;
+  --card:#2a2521;
+  --soft:#352e28;
+  --soft2:#40372f;
+  --ink:#f5efe7;
+  --muted:#b7aa9c;
+  --line:#4a4037;
+  --brown:#c49a72;
+  --brown2:#d2ad87;
+  --cream:#eadcc9;
+  --green:#91a58b;
+  --greenbg:#303c32;
+  --red:#d8897f;
+  --redbg:#432c2a;
+  --blue:#b9a0d3;
+  --shadow:0 8px 22px rgba(0,0,0,.14);
+  --shadow2:0 18px 40px rgba(0,0,0,.22);
+}
+
+:root.light{
+  --bg:#f4efe8;
+  --card:#fffdf9;
+  --soft:#eee7de;
+  --soft2:#e4dbd0;
+  --ink:#332b25;
+  --muted:#81766c;
+  --line:#ded3c7;
+  --brown:#9a7252;
+  --brown2:#7f5d42;
+  --cream:#e9ddcf;
+  --green:#71866d;
+  --greenbg:#e5ece2;
+  --red:#b96860;
+  --redbg:#f4e3df;
+  --blue:#846c9c;
+  --shadow:0 6px 18px rgba(67,52,39,.07);
+  --shadow2:0 16px 34px rgba(67,52,39,.10);
+}
+
+body,html{transition:background-color .2s ease,color .2s ease}
+.card,.stat,.next,.bottom,.modal,.segment,.activity-chip,.activity-select,
+.field input,.field select,.field textarea,.theme-btn,.soft,.week-nav button{
+  transition:background-color .2s ease,border-color .2s ease,color .2s ease;
+}
+
+/* Hero : cuir / bois / sable, sans illustration */
+.hero{
+  background:
+    radial-gradient(circle at 82% 18%,rgba(196,154,114,.20),transparent 34%),
+    linear-gradient(145deg,#3a3028 0%,#28211d 58%,#1d1917 100%) !important;
+  border-color:#51453a !important;
+}
+:root.light .hero{
+  background:
+    radial-gradient(circle at 82% 18%,rgba(154,114,82,.13),transparent 34%),
+    linear-gradient(145deg,#e9dfd4 0%,#ddd1c3 58%,#d5c8b9 100%) !important;
+  border-color:#d3c5b7 !important;
+}
+
+.hero-pill{
+  background:rgba(196,154,114,.17)!important;
+  border-color:rgba(196,154,114,.28)!important;
+  color:#e5c6a5!important;
+}
+:root.light .hero-pill{
+  background:rgba(154,114,82,.12)!important;
+  border-color:rgba(154,114,82,.22)!important;
+  color:#79573d!important;
+}
+
+/* Accent principal = cuir/selle */
+.carrot,.primary,.toast{
+  background:var(--brown)!important;
+}
+:root:not(.light) .carrot,
+:root:not(.light) .primary,
+:root:not(.light) .toast{color:#241a13!important}
+:root.light .carrot,
+:root.light .primary,
+:root.light .toast{color:#fff!important}
+
+/* Accents secondaires */
+.countdown{
+  background:var(--green)!important;
+  color:#172018!important;
+}
+:root.light .countdown{color:#fff!important}
+
+.type-dot{background:var(--brown2)!important}
+.month-bar{background:var(--brown)!important}
+.month-col.current .month-bar{background:var(--green)!important}
+
+.status.paid,.status.done{
+  background:var(--greenbg)!important;
+  color:var(--green)!important;
+}
+.status.unpaid,.status.pending{
+  background:var(--redbg)!important;
+  color:var(--red)!important;
+}
+
+.theme-btn:hover,.bottom button.active,.segment button.active,
+.week-nav button:hover,.activity-chip:hover{
+  border-color:var(--brown)!important;
+}
+
+.theme-btn:focus,.bottom button:focus,.carrot:focus,.primary:focus,
+.secondary:focus,.close-btn:focus,.activity-select:focus{
+  outline-color:var(--brown)!important;
+}
+
+/* Petits détails */
+.brand-kicker,.page-kicker,.eyebrow{color:var(--brown2)!important}
+.link{color:var(--brown2)!important}
+.month-chart-total{color:var(--brown2)!important}
+.chart-sub{color:var(--muted)!important}
+
+@media(max-width:390px){
+  .hero{background:
+    radial-gradient(circle at 82% 18%,rgba(196,154,114,.16),transparent 34%),
+    linear-gradient(145deg,#372e27 0%,#27211d 60%,#1d1917 100%) !important;
+  }
+}
+</style>
+
+
+<style id="v11-final-design">
+:root{
+  --bg:#211d1a;
+  --card:#2a2521;
+  --soft:#352e28;
+  --soft2:#40372f;
+  --ink:#f5efe7;
+  --muted:#b9aca0;
+  --line:#51473f;
+  --brown:#c9a071;
+  --brown2:#d8b58e;
+  --cream:#eadcc9;
+  --green:#9aaa93;
+  --greenbg:#304034;
+  --red:#d88c82;
+  --redbg:#442e2b;
+  --shadow:0 8px 22px rgba(0,0,0,.14);
+  --shadow2:0 16px 34px rgba(0,0,0,.20);
+}
+:root.light{
+  --bg:#f4efe8;
+  --card:#fffdfa;
+  --soft:#eee7de;
+  --soft2:#e5ddd3;
+  --ink:#342c26;
+  --muted:#7d736b;
+  --line:#d9cec2;
+  --brown:#9b7351;
+  --brown2:#7f5e45;
+  --cream:#eadcc9;
+  --green:#71866d;
+  --greenbg:#e5ece2;
+  --red:#b96e64;
+  --redbg:#f4e4e0;
+  --shadow:0 6px 18px rgba(67,52,39,.07);
+  --shadow2:0 14px 32px rgba(67,52,39,.10);
+}
+
+html,body{
+  background:var(--bg)!important;
+  color:var(--ink)!important;
+  overflow-x:hidden;
+}
+body{
+  min-height:100vh;
+  padding-top:max(30px,env(safe-area-inset-top));
+  padding-bottom:max(20px,env(safe-area-inset-bottom));
+  font-size:16px;
+}
+.app{
+  width:min(100%,620px);
+  padding:14px 16px 128px;
+}
+.header{
+  padding:0 2px 18px!important;
+  margin:0!important;
+  min-height:58px;
+}
+.brand-kicker,.page-kicker,.eyebrow{
+  font-size:11px!important;
+  letter-spacing:.18em!important;
+  line-height:1.2!important;
+  font-weight:900!important;
+}
+.brand-name{
+  font-size:30px!important;
+  line-height:1.05!important;
+  margin-top:6px!important;
+}
+.theme-btn{
+  width:50px!important;height:50px!important;
+  border-radius:16px!important;
+  background:var(--soft)!important;
+  border:1px solid var(--line)!important;
+  color:var(--brown2)!important;
+}
+.theme-btn svg{width:22px!important;height:22px!important}
+
+.hero{
+  height:250px!important;
+  border-radius:25px!important;
+  box-shadow:none!important;
+  border:1px solid var(--line)!important;
+}
+.hero-copy{left:22px!important;top:22px!important}
+.hero h1{font-size:42px!important;line-height:1!important;margin:9px 0 7px!important}
+.hero-sub{font-size:14px!important}
+.hero-bottom{left:21px!important;right:21px!important;bottom:19px!important}
+.hero-caption{font-size:21px!important}
+.hero-caption small{font-size:11px!important;margin-top:5px!important}
+.hero-pill{font-size:12px!important;padding:10px 14px!important}
+
+.section{margin-top:19px!important}
+.section-head{margin:0 3px 10px!important}
+.title{font-size:19px!important}
+.link{font-size:12px!important;padding:7px 4px!important}
+.stats{gap:9px!important}
+.stat{
+  padding:15px 7px!important;
+  border-radius:17px!important;
+}
+.stat strong{font-size:20px!important}
+.stat span{font-size:10px!important;margin-top:6px!important}
+
+.next{
+  grid-template-columns:44px minmax(0,1fr) auto!important;
+  gap:13px!important;
+  padding:15px!important;
+  border-radius:19px!important;
+  margin-top:13px!important;
+}
+.next-mark,.row-mark{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--brown);
+  display:block;
+  box-shadow:0 0 0 7px rgba(201,160,113,.10);
+  margin:auto;
+}
+.kicker{font-size:9px!important;letter-spacing:.09em!important}
+.row-title{font-size:14px!important;line-height:1.25!important}
+.row-sub{font-size:11px!important;line-height:1.4!important;margin-top:5px!important}
+.countdown{min-width:65px!important;padding:9px!important;border-radius:13px!important}
+.countdown b{font-size:14px!important}.countdown span{font-size:9px!important}
+
+.list{padding:0 15px!important}
+.list-row{
+  grid-template-columns:38px minmax(0,1fr) auto 34px!important;
+  gap:11px!important;
+  padding:14px 0!important;
+}
+.row-mark{width:10px;height:10px;box-shadow:none}
+.amount{font-size:13px!important}
+.status{font-size:9px!important;padding:5px 8px!important}
+.delete-btn{
+  width:34px!important;height:38px!important;
+  border-radius:10px!important;
+  font-size:22px!important;
+  color:var(--muted)!important;
+}
+.empty{padding:24px!important;font-size:12px!important}
+
+.page-title{
+  font-size:40px!important;
+  line-height:1!important;
+  margin:7px 0!important;
+}
+.page-sub{
+  font-size:13px!important;
+  line-height:1.45!important;
+  margin-bottom:17px!important;
+}
+.segment{
+  gap:4px!important;
+  padding:4px!important;
+  border-radius:15px!important;
+}
+.segment button{
+  min-height:42px!important;
+  font-size:11px!important;
+}
+.finance-summary{padding:17px!important}
+.summary-line b{font-size:30px!important}
+.summary-line span{font-size:11px!important}
+.progress{height:7px!important;margin-top:13px!important}
+.add-line{margin:20px 3px 10px!important}
+.tiny{font-size:11px!important;line-height:1.4!important}
+
+.carrot{
+  width:48px!important;height:48px!important;
+  border-radius:15px!important;
+  font-size:22px!important;
+}
+
+/* Finance: compact six-month chart */
+.monthly-finance-chart{
+  margin-top:14px;
+  padding:17px 15px 14px;
+  border:1px solid var(--line);
+  border-radius:19px;
+  background:var(--card);
+}
+.monthly-chart-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:12px;
+  margin-bottom:13px;
+}
+.monthly-chart-title{font-size:18px;font-weight:900;line-height:1.2}
+.monthly-chart-sub{font-size:11px;color:var(--muted);margin-top:4px}
+#monthlyTotal{font-size:15px;color:var(--brown2);white-space:nowrap}
+.monthly-bars{
+  height:190px;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:9px;
+  align-items:end;
+  border-bottom:1px solid var(--line);
+  padding:10px 3px 0;
+}
+.monthly-col{
+  height:100%;
+  min-width:0;
+  display:grid;
+  grid-template-rows:20px minmax(0,1fr) 24px;
+  align-items:end;
+  justify-items:center;
+}
+.monthly-value{
+  width:100%;
+  min-height:20px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  font-size:9px;
+  font-weight:800;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.monthly-bar-zone{
+  width:100%;
+  height:132px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+.monthly-bar{
+  width:min(34px,58%);
+  min-height:4px;
+  border-radius:8px 8px 3px 3px;
+  background:var(--brown);
+  transition:height .25s ease;
+}
+.monthly-col.current .monthly-bar{background:var(--green)}
+.monthly-label{
+  height:24px;
+  display:flex;
+  align-items:center;
+  font-size:10px;
+  font-weight:850;
+  text-transform:capitalize;
+  color:var(--muted);
+}
+.monthly-col.current .monthly-label{color:var(--ink)}
+.monthly-bar.empty{opacity:.18}
+
+.week{
+  padding:15px!important;
+  border-radius:21px!important;
+}
+.week-head{margin-bottom:8px!important}
+.week-title{font-size:20px!important}
+.week-nav{gap:6px!important}
+.week-nav button{
+  width:40px!important;height:40px!important;
+  border-radius:12px!important;
+  font-size:21px!important;
+}
+.day{
+  grid-template-columns:50px minmax(0,1fr) 20px!important;
+  gap:12px!important;
+  min-height:75px!important;
+  padding:10px 0!important;
+}
+.day.today{
+  margin:5px -5px!important;
+  padding:11px 10px!important;
+  background:linear-gradient(90deg,rgba(201,160,113,.20),rgba(201,160,113,.07))!important;
+  border:1px solid rgba(201,160,113,.45)!important;
+  box-shadow:inset 4px 0 0 var(--brown)!important;
+}
+.day.today .dayname,.day.today .daynum{color:var(--brown2)!important}
+.day.today:after{
+  content:"Aujourd’hui";
+  position:absolute;
+}
+.dayname{
+  font-size:11px!important;
+  letter-spacing:.08em!important;
+}
+.daynum{font-size:21px!important;margin-top:4px!important}
+.day-date{min-width:0}
+.activity-select{
+  width:100%!important;
+  min-width:0!important;
+  height:48px!important;
+  border-radius:15px!important;
+  padding:0 13px!important;
+  font-size:16px!important;
+  font-weight:800!important;
+}
+.chevron{font-size:20px!important}
+.activity-list{
+  padding:13px!important;
+  gap:7px!important;
+}
+.activity-chip{
+  padding:10px 13px!important;
+  border-radius:13px!important;
+  font-size:13px!important;
+  color:var(--ink)!important;
+  background:var(--soft)!important;
+  border:1px solid var(--line)!important;
+}
+.activity-chip span{min-width:0;overflow-wrap:anywhere}
+.activity-chip:hover{border-color:var(--line)!important}
+
+.profile{
+  padding:19px!important;
+  border-radius:21px!important;
+}
+.profile-head{gap:0!important}
+.profile-name{font-size:35px!important}
+.profile-meta{font-size:12px!important;margin-top:6px!important}
+.info-grid{gap:9px!important;margin-top:18px!important}
+.info{
+  padding:14px!important;
+  border-radius:14px!important;
+  min-width:0!important;
+}
+.info span{font-size:10px!important}
+.info b{font-size:14px!important;margin-top:5px!important;overflow-wrap:anywhere}
+.profile-tabs{margin-top:17px!important}
+.profile-tabs button{min-height:42px!important;font-size:11px!important}
+.note{
+  min-height:120px!important;
+  padding:15px!important;
+  font-size:12px!important;
+  line-height:1.55!important;
+}
+.full-btn{height:48px!important;font-size:13px!important}
+
+.bottom{
+  width:min(calc(100% - 24px),600px)!important;
+  height:76px!important;
+  bottom:max(10px,env(safe-area-inset-bottom))!important;
+  padding:7px!important;
+  border-radius:25px!important;
+}
+.bottom button{
+  gap:5px!important;
+  font-size:10px!important;
+  border-radius:19px!important;
+}
+.nav-svg{width:23px!important;height:23px!important}
+
+.modal-backdrop{
+  padding:0!important;
+  align-items:flex-end!important;
+}
+.modal{
+  width:min(100%,620px)!important;
+  max-height:calc(100vh - 42px)!important;
+  padding:20px 18px max(20px,env(safe-area-inset-bottom))!important;
+  border-radius:26px 26px 0 0!important;
+}
+.modal-head{margin-bottom:18px!important}
+.modal-title{font-size:29px!important;line-height:1.05!important}
+.close-btn{
+  width:46px!important;height:46px!important;
+  border-radius:14px!important;
+  font-size:27px!important;
+}
+.form{gap:13px!important}
+.field{gap:7px!important;min-width:0!important}
+.field label{font-size:11px!important}
+.field input,.field select,.field textarea{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  min-height:50px!important;
+  padding:11px 13px!important;
+  border-radius:15px!important;
+  font-size:16px!important;
+}
+.field textarea{min-height:100px!important}
+.grid2{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:10px!important;
+  min-width:0!important;
+}
+.grid2>*{min-width:0!important}
+.actions{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:10px!important;
+  margin-top:4px!important;
+}
+.primary,.secondary{
+  min-width:0!important;
+  height:52px!important;
+  border-radius:15px!important;
+  font-size:14px!important;
+}
+.manage-row{
+  gap:10px!important;
+  padding:12px 0!important;
+}
+.manage-row>span{
+  min-width:0!important;
+  font-size:14px!important;
+  line-height:1.3!important;
+}
+.mini-btn{
+  width:38px!important;height:38px!important;
+  border-radius:11px!important;
+  font-size:15px!important;
+}
+.toast{font-size:11px!important;padding:11px 15px!important}
+
+@media(max-width:410px){
+  .app{padding-left:13px;padding-right:13px}
+  .hero h1{font-size:38px!important}
+  .day{grid-template-columns:46px minmax(0,1fr) 16px!important;gap:9px!important}
+  .activity-select{font-size:15px!important;padding-left:11px!important}
+  .monthly-bars{gap:5px!important}
+  .monthly-bar{width:65%!important}
+}
+@media(max-width:375px){
+  .grid2{grid-template-columns:1fr!important}
+  .actions{grid-template-columns:1fr!important}
+  .modal{max-height:calc(100vh - 28px)!important}
+  .modal-title{font-size:26px!important}
+  .monthly-value{font-size:8px!important}
+}
+</style>
+
+
+<style id="v11-today-badge">
+.day.today{position:relative}
+.day.today:after{
+  content:"Aujourd’hui";
+  position:absolute;
+  top:7px;
+  right:10px;
+  padding:3px 7px;
+  border-radius:999px;
+  background:var(--brown);
+  color:#2b2119;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.02em;
+}
+:root.light .day.today:after{color:#fff}
+</style>
+<style id="v11-form-safety">
+input[type="date"],input[type="time"],input[type="number"]{
+  appearance:none;
+  -webkit-appearance:none;
+  text-align:left;
+}
+.modal,.modal *{min-width:0}
+.modal{overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
+</style>
+
+
+<style id="v11-final-polish">
+/* Aucun élément ne doit provoquer de débordement horizontal sur iPhone */
+*,*::before,*::after{max-width:100%}
+img,svg,video{max-width:100%}
+button,input,select,textarea{touch-action:manipulation}
+select{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Les fenêtres restent entièrement lisibles même avec le clavier iOS */
+@media(max-width:430px){
+  .modal{padding-left:16px!important;padding-right:16px!important}
+  .modal-head{gap:12px}
+  .modal-title{max-width:calc(100% - 58px);overflow-wrap:anywhere}
+  .field input,.field select,.field textarea{font-size:16px!important}
+}
+
+/* Pas de marqueur parasite dans les listes */
+.next-mark,.row-mark{flex:none}
+</style>
+
+<style id="v12-final-design">
+:root{--ui-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;--display-font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+html,body,button,input,select,textarea{font-family:var(--ui-font)!important}
+.brand-name,.page-title,.modal-title,.hero h1,.profile-name{font-family:var(--display-font)!important;font-weight:650!important;letter-spacing:-.045em!important}
+.brand-name{font-size:22px!important}.page-title{font-size:38px!important}.modal-title{font-size:27px!important}.profile-name{font-size:31px!important}.hero h1{font-size:48px!important}
+.brand-kicker,.page-kicker,.eyebrow{font-size:10px!important;letter-spacing:.18em!important;font-weight:800!important}
+.page-sub{font-size:14px!important}.title{font-size:18px!important}.link{font-size:12px!important}.tiny{font-size:12px!important}
+.stat strong{font-size:20px!important}.stat span{font-size:10px!important}.row-title{font-size:16px!important;line-height:1.2!important}.row-sub{font-size:12px!important;line-height:1.4!important}.kicker{font-size:10px!important;letter-spacing:.09em!important}.status{font-size:9px!important}.amount{font-size:13px!important}
+.hero{height:205px!important;border-radius:26px!important}.hero-copy{left:25px!important;top:25px!important;right:25px!important}.hero-sub{font-size:17px!important;opacity:.82!important;margin-top:9px!important}.hero:after{background:linear-gradient(180deg,rgba(20,13,9,.01),rgba(20,13,9,.42))!important}.hero-bottom,.hero-logo{display:none!important}
+.appointment-card{grid-template-columns:minmax(0,1fr) auto!important;gap:18px!important;padding:17px 18px!important;min-height:105px!important;border-radius:22px!important}.appointment-card .appointment-content{min-width:0!important}.appointment-card .kicker{color:var(--brown2)!important;margin-bottom:6px!important}.appointment-card .row-title{font-size:19px!important}.appointment-card .row-sub{font-size:13px!important;margin-top:7px!important}.appointment-card .countdown{min-width:92px!important;width:92px!important;height:68px!important;align-self:center!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;border-radius:18px!important;background:var(--green)!important;color:#172018!important;overflow:hidden!important}.appointment-card .countdown b{font-size:15px!important;line-height:1.1!important;white-space:nowrap!important}.appointment-card .countdown span{font-size:9px!important;margin-top:3px!important;opacity:.8!important;white-space:nowrap!important}
+.day.today{position:relative!important;margin:5px 0!important;padding:12px 10px!important;border:1px solid rgba(201,160,113,.55)!important;box-shadow:inset 4px 0 0 var(--brown)!important}.day.today:after{content:"Aujourd’hui";position:absolute;right:10px;top:9px;padding:4px 8px;border-radius:999px;background:var(--brown);color:#2b2119;font-size:8px;font-weight:900;letter-spacing:.01em}:root.light .day.today:after{color:#fff}.day.today .dayname,.day.today .daynum{color:var(--brown2)!important}.day.today .activity-select{border-color:rgba(201,160,113,.48)!important}
+.grid2{grid-template-columns:1fr!important;gap:12px!important}.actions{grid-template-columns:1fr 1fr!important}.profile-head{padding:2px 2px 0!important}.profile-meta{font-size:13px!important;color:var(--muted)!important;margin-top:6px!important}.info span{font-size:10px!important}.info b{font-size:14px!important}.app{padding-bottom:155px!important}.bottom{height:74px!important}.monthly-chart-title{font-size:18px!important}.monthly-chart-sub{font-size:12px!important}.monthly-value{font-size:9px!important}.monthly-label{font-size:10px!important}
+@media(max-width:430px){.app{padding-left:14px!important;padding-right:14px!important}.hero{height:190px!important}.hero h1{font-size:44px!important}.page-title{font-size:36px!important}.next.appointment-card{grid-template-columns:minmax(0,1fr) 92px!important}.appointment-card .countdown{min-width:92px!important;width:92px!important;height:64px!important}}
+@media(max-width:375px){.appointment-card{grid-template-columns:1fr!important}.appointment-card .countdown{width:100%;min-width:0!important;height:45px!important;flex-direction:row!important;gap:7px!important}.appointment-card .countdown b{font-size:15px!important}.actions{grid-template-columns:1fr!important}}
+</style>
+
+<style id="v13-notes-finance">
+.finance-overview-hidden{display:none!important}
+.pense-bete{margin-top:16px;padding:16px!important}
+.pense-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.pense-title{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.pense-sub{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4}
+.note-add{width:46px!important;height:46px!important;min-width:46px!important;border:0!important;border-radius:15px!important;background:var(--brown)!important;color:#fff!important;font-size:20px!important;display:grid!important;place-items:center!important;box-shadow:none!important}
+.horse-note{position:relative;padding:14px 40px 14px 14px;margin-top:8px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
+.horse-note-date{font-size:11px;font-weight:800;color:var(--brown2);margin-bottom:5px}
+.horse-note-text{font-size:14px;line-height:1.5;color:var(--ink);overflow-wrap:anywhere}
+.note-delete{position:absolute;right:9px;top:9px;width:30px;height:30px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-size:20px;line-height:1;display:grid;place-items:center}
+.note-empty{padding:18px 4px 4px;text-align:left;color:var(--muted);font-size:12px;line-height:1.5}
+.note-modal-date{font-size:16px!important}
+@media(max-width:430px){
+ .pense-title{font-size:19px}
+ .horse-note-text{font-size:15px}
+ .note-add{width:44px!important;height:44px!important;min-width:44px!important}
+}
+</style>
+
+
+<style id="v14-polish">
+.info-free-text{margin-top:14px;padding:16px!important;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
+.info-free-label{font-size:11px;font-weight:800;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em}
+.info-free-content{font-size:15px;line-height:1.55;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.info-free-empty{color:var(--muted)}
+.insurance-tag{display:inline-flex;align-items:center;max-width:100%;padding:5px 8px;border-radius:8px;font-size:9px;line-height:1.2;font-weight:800;margin-top:5px;white-space:normal}
+.insurance-none{background:var(--soft2);color:var(--muted)}
+.insurance-pending{background:#eadfc7;color:#806343}
+.insurance-paid{background:var(--greenbg);color:var(--green)}
+.finance-row-meta{min-width:0}.finance-row-meta .row-sub{overflow-wrap:anywhere}
+@media(max-width:430px){.info-free-content{font-size:16px}.insurance-tag{font-size:9px}}
+</style>
+
+
+<style id="v15-horses">
+.horse-switcher{margin:2px 2px 16px;padding:11px 12px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow)}
+.horse-switcher-label{font-size:9px;font-weight:900;letter-spacing:.16em;color:var(--muted);margin:0 2px 7px}
+.horse-switcher-row{display:flex;align-items:center;gap:8px;min-width:0}
+.horse-select{flex:1;min-width:0;height:43px;padding:0 12px;border-radius:13px;border:1px solid var(--line);background:var(--soft);color:var(--ink);font-size:15px;font-weight:800;outline:none}
+.horse-add{flex:0 0 auto;height:43px;padding:0 13px;border:1px solid var(--line);border-radius:13px;background:var(--brown);color:#fff;font-size:13px;font-weight:850}
+.horse-switcher-meta{font-size:10px;color:var(--muted);margin:6px 2px 0}
+@media(max-width:430px){.horse-add{padding:0 11px;font-size:12px}.horse-select{font-size:16px}}
+</style>
+
+<style id="v16-fixes">
+.global-horse-switcher{display:none!important}
+.profile-horse-switcher{display:flex;align-items:center;gap:8px;margin-top:14px;padding:10px 12px;border:1px solid var(--line);border-radius:15px;background:var(--soft)}
+.profile-horse-switcher label{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
+.profile-horse-switcher select{min-width:0;flex:1;height:38px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);padding:0 10px;font-size:15px;font-weight:800}
+.profile-horse-add{height:38px;padding:0 10px;border:1px solid var(--line);border-radius:11px;background:var(--brown);color:#fff;font-weight:850}
+.expense-status-line{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.expense-status-line .status{margin:0}
+.insurance-tag{display:inline-flex!important;align-items:center!important;padding:4px 7px!important;border-radius:7px!important;font-size:8px!important;line-height:1.15!important;font-weight:850!important;margin:0!important;white-space:nowrap!important}
+.insurance-none{background:var(--soft2)!important;color:var(--muted)!important}
+.insurance-pending{background:#eadfc7!important;color:#806343!important}
+.insurance-paid{background:var(--greenbg)!important;color:var(--green)!important}
+.info-free-content[contenteditable="true"]{min-height:105px;outline:none;cursor:text}
+@media(max-width:430px){
+ .profile-horse-switcher{flex-wrap:wrap}
+ .profile-horse-switcher label{width:100%}
+ .profile-horse-switcher select{width:100%;flex-basis:100%}
+ .profile-horse-add{flex:1}
+}
+</style>
+
+
+<style id="v17-refund">
+.field-help{font-size:10px;line-height:1.35;color:var(--muted);margin-top:5px}
+.net-cost{font-weight:850}
+.refund-amount{font-size:11px;color:var(--green);margin-top:3px}
+.refund-summary{font-size:11px;color:var(--muted);margin-top:4px}
+</style>
+
+
+<style id="v18-polish">
+/* V18 — final responsive polish */
+html,body{overflow-x:hidden!important}
+.app{max-width:560px!important;width:100%!important;padding-left:15px!important;padding-right:15px!important;padding-bottom:154px!important}
+.section{margin-top:18px!important}
+/* Clear separation between the horse selector card and the section title */
+.profile-horse-switcher{margin-bottom:28px!important}
+/* Finance filters: four equal tabs, no wrapping */
+.segment{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important}
+.segment button{min-width:0!important;padding:0 3px!important;white-space:nowrap!important;font-size:9px!important}
+/* Profile: one editable information field only */
+.profile-info-block{margin-top:14px!important}
+.profile-info-label{display:block;font-size:9px!important;font-weight:900!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:var(--muted)!important;margin:0 0 7px 2px!important}
+.profile-info-editor{display:block!important;width:100%!important;min-height:128px!important;resize:vertical!important;padding:14px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:var(--soft)!important;color:var(--ink)!important;font-size:15px!important;line-height:1.55!important;outline:none!important}
+.profile-info-editor:focus{border-color:var(--brown)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--brown) 15%,transparent)!important}
+.profile-info-editor::placeholder{color:var(--muted)!important;opacity:.8}
+.profile-info-saved{font-size:9px;color:var(--muted);margin:6px 2px 0}
+/* More robust list layout on narrow iPhones */
+.list-row{grid-template-columns:30px minmax(0,1fr) auto 54px!important}
+.list-row>div:nth-child(2){min-width:0!important}
+.list-row .row-title,.list-row .row-sub{overflow-wrap:anywhere!important}
+.insurance-tag{max-width:150px!important;white-space:normal!important;text-align:left!important;line-height:1.15!important;overflow:visible!important;text-overflow:clip!important;display:inline-flex!important;justify-content:center!important}
+@media(max-width:430px){
+ .app{padding-left:14px!important;padding-right:14px!important}
+ .profile-horse-switcher{margin-bottom:26px!important}
+ .profile-info-editor{min-height:132px!important;font-size:16px!important}
+ .segment button{font-size:8px!important}
+}
+@media(max-width:375px){
+ .segment button{font-size:7.5px!important}
+ .list-row{grid-template-columns:24px minmax(0,1fr) auto 54px!important;gap:6px!important}
+}
+</style>
+
+<style id="v24-horse-management">
+.horse-switch-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.profile-horse-add.carrot{width:52px!important;min-width:52px!important;height:38px!important;padding:0!important;font-size:20px!important;display:grid!important;place-items:center!important;line-height:1!important}
+.profile-horse-remove{height:30px!important;padding:0 8px!important;border:0!important;background:transparent!important;color:var(--muted)!important;font-size:9px!important;font-weight:750!important}
+.profile-horse-remove:active{opacity:.55}
+.info-grid .info{min-width:0}
+.info-grid .info b{overflow-wrap:anywhere}
+@media(max-width:430px){
+ .horse-switch-actions{width:100%;justify-content:flex-end;margin-top:-2px}
+ .profile-horse-remove{margin-left:auto}
+}
+</style>
+<style id="v25-carrot-polish">
+/* Compact carrot action, aligned with the other add buttons */
+.profile-horse-switcher .horse-switch-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:10px!important;
+  width:auto!important;
+  flex:0 0 auto!important;
+}
+.profile-horse-switcher .profile-horse-add.carrot{
+  flex:0 0 52px!important;
+  width:52px!important;
+  min-width:52px!important;
+  max-width:52px!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0!important;
+  border-radius:11px!important;
+  border:1px solid var(--line)!important;
+  background:var(--brown)!important;
+  color:#fff!important;
+  font-size:20px!important;
+  line-height:1!important;
+  display:grid!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+}
+.profile-horse-switcher .profile-horse-add.carrot:active{
+  transform:scale(.97);
+}
+@media(max-width:430px){
+  .profile-horse-switcher .horse-switch-actions{
+    width:auto!important;
+    margin-top:0!important;
+    margin-left:auto!important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+  <div class="brand">
+    <div><div class="brand-kicker">MON ESPACE ÉQUIN</div><div class="brand-name" id="brandName">Luyana</div></div>
+  </div>
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="Changer le thème"></button>
+</header>
+
+
+
+<main>
+<section id="homeView" class="view">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">MON ESPACE ÉQUIN</div>
+      <h1 id="heroName">Luyana</h1>
+      <div class="hero-sub" id="heroSub">CSO · 5 ans</div>
+    </div>
+  </div>
+
+  <div id="nextAppointment"></div>
+
+  <section class="section"><div class="stats">
+    <div class="stat"><strong id="monthSpend">0 €</strong><span>Ce mois</span></div>
+    <div class="stat"><strong id="yearSpend">0 €</strong><span>Cette année</span></div>
+    <div class="stat"><strong id="futureCount">0</strong><span>Rendez-vous</span></div>
+  </div></section>
+
+  <section class="section">
+    <div class="section-head"><div class="title">Dernières dépenses</div><button class="link" data-action="finance">Voir tout ›</button></div>
+    <div class="card list" id="recentExpenses"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div class="title">Tous les rendez-vous à venir</div><button class="carrot" data-action="addAppointment" type="button">🥕</button></div>
+    <div class="card list" id="upcomingList"></div>
+  </section>
+
+</section>
+
+<section id="financeView" class="view hidden">
+  <div class="page-kicker">SUIVI FINANCIER</div><div class="page-title">Finances</div>
+  <div class="page-sub" id="financePageSub">Soins, matériel, pension et autres dépenses.</div>
+  <div class="segment" id="financeFilters"><button class="active" data-filter="all" type="button">Toutes</button><button data-filter="unpaid" type="button">À payer</button><button data-filter="paid" type="button">Payées</button><button class="refund-filter" data-filter="refund" type="button">Att. remb.</button></div>
+  <div class="stats finance-overview" id="financeStats"><div class="stat"><strong id="invoiceCount">0</strong><span>Factures</span></div><div class="stat"><strong id="paidTotal">0 €</strong><span>Payé</span></div><div class="stat"><strong id="dueTotal">0 €</strong><span>À payer</span></div></div>
+  <div class="card monthly-finance-chart finance-overview" id="financeChart">
+    <div class="monthly-chart-head">
+      <div>
+        <div class="monthly-chart-title">Dépenses sur 6 mois</div>
+        <div class="monthly-chart-sub">Historique mensuel</div>
+      </div>
+      <strong id="monthlyTotal">0 €</strong>
+    </div>
+    <div id="monthlyBars" class="monthly-bars" aria-label="Dépenses des six derniers mois"></div>
+    <div class="monthly-history-control">
+      <button id="monthlyOlder" class="monthly-older-btn" type="button" aria-label="Afficher les mois précédents">‹</button>
+      <span id="monthlyRangeLabel">6 derniers mois</span>
+      <button id="monthlyNewer" class="monthly-older-btn" type="button" aria-label="Revenir aux 6 derniers mois">›</button>
+    </div>
+  </div>
+  <div class="card finance-summary section finance-overview" id="financeSummary"><div class="summary-line"><div><b id="financeTotal">0 €</b><div class="caption">Cette année</div></div><span id="paidRate">0 % payé</span></div><div class="progress"><i id="financeProgress"></i></div></div>
+  <div class="add-line"><div class="title">Historique</div><button class="carrot" data-action="addExpense" type="button">🥕</button></div>
+  <div class="card list" id="financeList"></div>
+</section>
+
+<section id="planningView" class="view hidden">
+  <div class="page-kicker">ACTIVITÉ ÉQUESTRE</div><div class="page-title">Planning</div>
+  <div class="page-sub" id="planningPageSub">Une activité par jour pour le cheval sélectionné.</div>
+  <div class="card week">
+    <div class="week-head"><div class="week-title" id="weekTitle">Cette semaine</div><div class="week-nav"><button data-week="-1" type="button">‹</button><button data-week="0" type="button">•</button><button data-week="1" type="button">›</button></div></div>
+    <div id="weekRows"></div>
+  </div>
+  <div class="add-line"><div><div class="title">Activités disponibles</div><div class="tiny">Cette liste est entièrement modifiable.</div></div><button class="carrot" data-action="manageActivities" type="button">🥕</button></div>
+  <div class="card activity-list" id="activityList"></div>
+</section>
+
+<section id="profileView" class="view hidden"><div class="profile-horse-switcher">
+<label>CHEVAL</label>
+<select id="profileHorseSelect" aria-label="Choisir le cheval"></select>
+<div class="horse-switch-actions">
+<button id="profileHorseAdd" class="profile-horse-add carrot" type="button" aria-label="Ajouter un cheval" title="Ajouter un cheval">🥕</button>
+<button id="profileHorseRemove" class="profile-horse-remove" type="button">Retirer</button>
+</div>
+</div>
+  <div class="page-kicker">FICHE CHEVAL</div><div class="page-title">Informations</div><div class="page-sub">Les informations essentielles de ton cheval.</div>
+  <div class="card profile">
+    <div class="profile-head">
+      <div><div class="profile-name" id="profileName">Luyana</div><div class="profile-meta" id="profileAge">—</div></div>
+    </div>
+    <div class="info-grid"><div class="info"><span>Date de naissance</span><b id="profileBirth">—</b></div><div class="info"><span>Âge</span><b id="profileAgeBox">—</b></div><div class="info"><span>Discipline</span><b id="profileDiscipline">—</b></div><div class="info"><span>Race</span><b id="profileBreed">—</b></div><div class="info"><span>Écurie</span><b id="profileStable">—</b></div></div>
+    <div class="profile-info-block">
+      <label class="profile-info-label" for="profileInfoText">Informations</label>
+      <textarea id="profileInfoText" class="profile-info-editor" placeholder="Ajoute ici les informations importantes concernant ce cheval…" spellcheck="true"></textarea>
+      <div class="profile-info-saved" id="profileInfoSaved">Enregistrement automatique</div>
+    </div>
+    <button class="full-btn" data-action="editProfile" type="button">Modifier la fiche</button>
+  </div>
+
+  <section class="card pense-bete">
+    <div class="pense-head">
+      <div>
+        <div class="pense-title">Pense-bête</div>
+        <div class="pense-sub" id="penseSub">Ajoute des observations datées sur le cheval sélectionné.</div>
+      </div>
+      <button class="note-add" data-action="addHorseNote" type="button" aria-label="Ajouter une note">🥕</button>
+    </div>
+    <div id="horseNotesList"></div>
+  </section>
+</section>
+</main>
+</div>
+
+<nav class="bottom" aria-label="Navigation">
+  <button class="active" data-view="homeView" type="button"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8"/><path d="M5.5 9.8V21h13V9.8M9 21v-6h6v6"/></svg><span>Accueil</span></button>
+  <button data-view="financeView" type="button"><svg class="nav-svg" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg><span>Finances</span></button>
+  <button data-view="planningView" type="button"><svg class="nav-svg" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><span>Planning</span></button>
+  <button data-view="profileView" type="button"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M5 19c1.8-3 4.1-4.5 7-4.5s5.2 1.5 7 4.5"/><circle cx="12" cy="8" r="3.5"/></svg><span id="profileNavLabel">Luyana</span></button>
+</nav>
+
+<!-- Modals -->
+<div class="modal-backdrop" id="expenseModal">
+ <div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><div class="modal-title">Ajouter une dépense</div><button class="close-btn" data-close="expenseModal" type="button">×</button></div>
+ <form class="form" id="expenseForm">
+  <div class="field"><label>Type</label><select id="expenseType"><option>Vétérinaire</option><option>Dentiste équin</option><option>Ostéopathe</option><option>Masseuse</option><option>Sellier</option><option>Maréchal-ferrant</option><option>Matériel</option><option>Pension</option><option>Alimentation</option><option>Concours</option><option>Transport</option><option>Autre</option></select></div>
+  <div class="field"><label>Prestataire / libellé</label><input id="expenseName" required placeholder="Ex. Consultation"></div>
+  <div class="grid2"><div class="field"><label>Date</label><input id="expenseDate" type="date" required></div><div class="field"><label>Montant (€)</label><input id="expenseAmount" type="number" min="0" step=".01" required></div></div>
+  <div class="field"><label>Statut</label><select id="expenseStatus"><option value="paid">Payée</option><option value="unpaid">À payer</option></select></div>
+  
+    <div class="field">
+      <label>Remboursement assurance</label>
+      <select id="expenseInsurance">
+        <option value="none">Pas de remboursement</option>
+        <option value="pending">En attente du remboursement</option>
+        <option value="paid">Remboursé</option>
+      </select>
+    </div>
+    
+    <div class="field" id="refundAmountField">
+      <label>Montant remboursé</label>
+      <input id="expenseRefundAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00 €">
+      <div class="field-help">Le montant saisi sera automatiquement déduit du coût réel.</div>
+    </div>
+    <div class="field"><label>Note</label><textarea id="expenseNote"></textarea></div>
+  <div class="actions"><button class="secondary" data-close="expenseModal" type="button">Annuler</button><button class="primary" type="submit">Enregistrer</button></div>
+ </form></div>
+</div>
+
+<div class="modal-backdrop" id="appointmentModal">
+ <div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><div class="modal-title">Ajouter un rendez-vous</div><button class="close-btn" data-close="appointmentModal" type="button">×</button></div>
+ <form class="form" id="appointmentForm">
+  <div class="field"><label>Type</label><select id="appointmentType"><option>Maréchal-ferrant</option><option>Vétérinaire</option><option>Dentiste</option><option>Ostéopathe</option><option>Masseuse</option><option>Sellier</option><option>Vaccination</option><option>Concours</option><option>Autre</option></select></div>
+  <div class="field"><label>Rendez-vous</label><input id="appointmentName" required placeholder="Ex. Parage"></div>
+  <div class="grid2"><div class="field"><label>Date</label><input id="appointmentDate" type="date" required></div><div class="field"><label>Heure</label><input id="appointmentTime" type="time" value="14:00"></div></div>
+  <div class="field"><label>Lieu / prestataire</label><input id="appointmentPlace"></div>
+  <div class="field"><label>Note</label><textarea id="appointmentNote"></textarea></div>
+  <div class="actions"><button class="secondary" data-close="appointmentModal" type="button">Annuler</button><button class="primary" type="submit">Enregistrer</button></div>
+ </form></div>
+</div>
+
+<div class="modal-backdrop" id="activityModal">
+ <div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><div class="modal-title">Liste des activités</div><button class="close-btn" data-close="activityModal" type="button">×</button></div>
+  <div class="field"><label>Ajouter une activité</label><div style="display:grid;grid-template-columns:1fr 45px;gap:7px"><input id="newActivity" placeholder="Ex. Trotting"><button class="carrot" id="addActivityBtn" type="button">🥕</button></div></div>
+  <div id="manageActivities" style="margin-top:12px"></div>
+ </div>
+</div>
+
+<div class="modal-backdrop" id="profileModal">
+ <div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><div class="modal-title" id="profileModalTitle">Modifier la fiche</div><button class="close-btn" data-close="profileModal" type="button">×</button></div>
+ <form class="form" id="profileForm">
+  <div class="field"><label>Nom</label><input id="editName" required></div>
+  <div class="grid2"><div class="field"><label>Date de naissance</label><input id="editBirth" type="date"></div><div class="field"><label>Discipline</label><input id="editDiscipline"></div></div>
+  <div class="field"><label>Race</label><input id="editBreed" list="breedChoices" placeholder="Ex. Selle Français"></div>
+  <div class="field"><label>Écurie</label><input id="editStable"></div>
+  <div class="actions"><button class="secondary" data-close="profileModal" type="button">Annuler</button><button class="primary" type="submit">Enregistrer</button></div>
+ </form></div>
+</div>
+
+<div class="modal-backdrop" id="horseNoteModal">
+ <div class="modal" role="dialog" aria-modal="true">
+  <div class="modal-head">
+   <div class="modal-title">Nouvelle note</div>
+   <button class="close-btn" data-close="horseNoteModal" type="button">×</button>
+  </div>
+  <form class="form" id="horseNoteForm">
+   <div class="field"><label>Date</label><input id="horseNoteDate" class="note-modal-date" type="date" required></div>
+   <div class="field"><label>Observation</label><textarea id="horseNoteText" rows="5" required placeholder="Ex. Aujourd’hui Luyana a les postérieurs gonflés."></textarea></div>
+   <div class="actions">
+    <button class="secondary" data-close="horseNoteModal" type="button">Annuler</button>
+    <button class="primary" type="submit">Ajouter la note</button>
+   </div>
+  </form>
+ </div>
+</div>
+
+<div class="modal-backdrop" id="horseModal">
+ <div class="modal" role="dialog" aria-modal="true">
+  <div class="modal-head"><div class="modal-title">Ajouter un cheval</div><button class="close-btn" data-close="horseModal" type="button">×</button></div>
+  <form class="form" id="horseForm">
+   <div class="field"><label>Nom</label><input id="horseName" required placeholder="Ex. Luyana"></div>
+   <div class="grid2">
+    <div class="field"><label>Date de naissance</label><input id="horseBirth" type="date"></div>
+    <div class="field"><label>Discipline</label><input id="horseDiscipline" placeholder="Ex. CSO"></div>
+   </div>
+   <div class="field"><label>Race</label><input id="horseBreed" list="breedChoices" placeholder="Ex. Selle Français"></div>
+   <div class="field"><label>Écurie</label><input id="horseStable"></div>
+   <div class="actions"><button class="secondary" data-close="horseModal" type="button">Annuler</button><button class="primary" type="submit">Ajouter le cheval</button></div>
+  </form>
+ </div>
+</div>
+
+<datalist id="breedChoices">
+<option value="Selle Français"><option value="Anglo-Arabe"><option value="Pur-sang"><option value="Arabe"><option value="Lusitanien"><option value="PRE"><option value="KWPN"><option value="Hanovrien"><option value="Holsteiner"><option value="Oldenbourg"><option value="BWP"><option value="Connemara"><option value="Poney Français de Selle"><option value="Welsh"><option value="Appaloosa"><option value="Quarter Horse"><option value="Frison"><option value="Comtois"><option value="Autre">
+</datalist>
+<div class="toast" id="toast"></div>
+
+<div class="auth-gate" id="authGate" aria-hidden="true">
+  <div class="auth-card">
+    <div class="auth-kicker">MON ESPACE ÉQUIN · V28</div>
+    <div class="auth-title" id="authTitle">Connexion</div>
+    <div class="auth-sub" id="authSub">Connecte-toi pour retrouver tes données sur tous tes appareils.</div>
+    <form id="authForm" autocomplete="on">
+      <label class="auth-field"><span>E-mail</span><input id="authEmail" type="email" autocomplete="email" required placeholder="ton@email.fr"></label>
+      <label class="auth-field"><span>Mot de passe</span><input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="6 caractères minimum"></label>
+      <button class="auth-submit" id="authSubmit" type="submit">Se connecter</button>
+    </form>
+    <button class="auth-switch" id="authSwitch" type="button">Créer un compte</button>
+    <div class="auth-error" id="authError" role="alert"></div>
+    <div class="auth-note">Les mêmes identifiants permettent d'utiliser l'application sur plusieurs téléphones ou ordinateurs.</div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-database-compat.js"></script>
+<script>
+(function(){
+  const firebaseConfig={
+    apiKey:"AIzaSyBaC3edpO8E8FcSdUBkWjO9RzL1s0D6xpc",
+    authDomain:"mon-espace-equin.firebaseapp.com",
+    databaseURL:"https://mon-espace-equin-default-rtdb.firebaseio.com/",
+    projectId:"mon-espace-equin",
+    storageBucket:"mon-espace-equin.firebasestorage.app",
+    messagingSenderId:"804648476556",
+    appId:"1:804648476556:web:7b7dbe135e359ee404c0a9"
+  };
+  const app=firebase.initializeApp(firebaseConfig);
+  window.__firebaseApp=app;
+  window.__firebaseAuth=firebase.auth();
+  window.__firebaseDB=firebase.database();
+})();
+</script>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const BASE_KEY='luyana_v8_';
+let KEY=BASE_KEY;
+const rawGet=(k,d)=>{try{const v=localStorage.getItem(BASE_KEY+k);return v===null?d:JSON.parse(v)}catch{return d}};
+let __firebaseApplying=false;
+const __cloudQueue=()=>{try{window.__queueFirebaseSync?.()}catch{}};
+const rawPut=(k,v)=>{localStorage.setItem(BASE_KEY+k,JSON.stringify(v));if(!__firebaseApplying)__cloudQueue()};
+const get=(k,d)=>{try{const v=localStorage.getItem(KEY+k);return v===null?d:JSON.parse(v)}catch{return d}};
+const put=(k,v)=>{localStorage.setItem(KEY+k,JSON.stringify(v));if(!__firebaseApplying)__cloudQueue()};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const uid=()=>Date.now()+Math.floor(Math.random()*1000);
+const pad2=n=>String(n).padStart(2,'0');
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`};
+const dateObj=s=>{if(!s)return new Date(NaN);const [y,m,d]=String(s).slice(0,10).split('-').map(Number);return new Date(y||1970,(m||1)-1,d||1)};
+const dateFr=s=>{const d=dateObj(s);return Number.isNaN(d.getTime())?'—':d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'})};
+const dateFrLong=s=>{const d=dateObj(s);return Number.isNaN(d.getTime())?'—':d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})};
+const daysBetween=s=>{const a=dateObj(today()),b=dateObj(s);if(Number.isNaN(b.getTime()))return 0;return Math.max(0,Math.round((b-a)/86400000))};
+const euro=v=>`${Number(v||0).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:2})} €`;
+const DEFAULT_ACTIVITIES=['Repos','Travail sur le plat','Dressage','Saut d’obstacles','Trotting','Cavaletti','Paddock','Prés','Saut de puce','Balade extérieure','Travail à pied','Longe','Renforcement','Soin'];
+const DEFAULT_PROFILE={name:'Luyana',birth:'2021-05-01',discipline:'CSO',breed:'',stable:'',note:''};
+
+function horseKey(id){return BASE_KEY+'horse_'+id+'_'}
+function horseGet(id,k,d){try{const v=localStorage.getItem(horseKey(id)+k);return v===null?d:JSON.parse(v)}catch{return d}}
+function horsePut(id,k,v){localStorage.setItem(horseKey(id)+k,JSON.stringify(v));if(!__firebaseApplying)__cloudQueue()}
+function hasHorseData(id,k){return localStorage.getItem(horseKey(id)+k)!==null}
+function makeHorseId(){return 'h_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7)}
+
+let horses=rawGet('horses',null);
+if(!Array.isArray(horses)||!horses.length){
+  const legacyProfile=rawGet('profile',DEFAULT_PROFILE);
+  const legacyId='luyana';
+  horses=[{id:legacyId,name:legacyProfile.name||'Luyana',birth:legacyProfile.birth||'',discipline:legacyProfile.discipline||'',breed:legacyProfile.breed||'',stable:legacyProfile.stable||''}];
+  rawPut('horses',horses);
+  rawPut('activeHorseId',legacyId);
+}
+
+/* Recover V1–V17 data into the legacy horse whenever scoped data is missing. */
+function migrateLegacyData(){
+  const legacy=horses.find(h=>h.id==='luyana')||horses[0];
+  if(!legacy)return;
+  const keys=['profile','finances','appointments','plans','activities','horseNotes'];
+  keys.forEach(k=>{
+    if(!hasHorseData(legacy.id,k)){
+      const v=rawGet(k,null);
+      if(v!==null)horsePut(legacy.id,k,v);
+    }
+  });
+  const p=horseGet(legacy.id,'profile',null);
+  if(p&&legacy.id==='luyana'){
+    const i=horses.findIndex(h=>h.id===legacy.id);
+    if(i>=0){horses[i]={...horses[i],name:p.name||legacy.name,birth:p.birth||legacy.birth||'',discipline:p.discipline||legacy.discipline||'',stable:p.stable||legacy.stable||''};rawPut('horses',horses)}
+  }
+}
+migrateLegacyData();
+
+let activeHorseId=rawGet('activeHorseId',horses[0].id);
+if(!horses.some(h=>h.id===activeHorseId))activeHorseId=horses[0].id;
+KEY=horseKey(activeHorseId);
+
+let finances=[],appointments=[],plans={},activities=[],profile=DEFAULT_PROFILE,horseNotes=[];
+function normalizeFinance(x){return {...x,insurance:x.insurance||'none',refundAmount:Math.max(0,Number(x.refundAmount)||0),amount:Math.max(0,Number(x.amount)||0)}}
+function loadHorseState(){
+  finances=(Array.isArray(horseGet(activeHorseId,'finances',[]))?horseGet(activeHorseId,'finances',[]):[]).map(normalizeFinance);
+  appointments=Array.isArray(horseGet(activeHorseId,'appointments',[]))?horseGet(activeHorseId,'appointments',[]):[];
+  plans=horseGet(activeHorseId,'plans',{})||{};
+  activities=Array.isArray(horseGet(activeHorseId,'activities',[]))&&horseGet(activeHorseId,'activities',[]).length?horseGet(activeHorseId,'activities',[]):[...DEFAULT_ACTIVITIES];
+  profile={...DEFAULT_PROFILE,...(horseGet(activeHorseId,'profile',{})||{})};
+  profile.breed=profile.breed||'';
+  horseNotes=Array.isArray(horseGet(activeHorseId,'horseNotes',[]))?horseGet(activeHorseId,'horseNotes',[]):[];
+}
+function saveHorseState(){
+  horsePut(activeHorseId,'finances',finances);
+  horsePut(activeHorseId,'appointments',appointments);
+  horsePut(activeHorseId,'plans',plans);
+  horsePut(activeHorseId,'activities',activities);
+  horsePut(activeHorseId,'profile',profile);
+  horsePut(activeHorseId,'horseNotes',horseNotes);
+}
+function syncHorseRegistry(){
+  const i=horses.findIndex(h=>h.id===activeHorseId);
+  if(i>=0){horses[i]={...horses[i],name:profile.name||'Sans nom',birth:profile.birth||'',discipline:profile.discipline||'',breed:profile.breed||'',stable:profile.stable||''};rawPut('horses',horses)}
+}
+function ensureHorseData(){
+ const defaults={finances:[],appointments:[],plans:{},activities:[...DEFAULT_ACTIVITIES],horseNotes:[],profile:{...DEFAULT_PROFILE}};
+ Object.entries(defaults).forEach(([k,v])=>{if(!hasHorseData(activeHorseId,k))horsePut(activeHorseId,k,v)});
+ loadHorseState();
+}
+function resetEnteredDataOnce(){
+ const marker='v23_clean_reset_done';
+ if(rawGet(marker,false))return;
+ horses.forEach(h=>{
+   horsePut(h.id,'finances',[]);
+   horsePut(h.id,'appointments',[]);
+   horsePut(h.id,'plans',{});
+   horsePut(h.id,'horseNotes',[]);
+   const currentProfile=horseGet(h.id,'profile',null);
+   if(currentProfile){
+     horsePut(h.id,'profile',{...DEFAULT_PROFILE,...currentProfile,note:''});
+   }else{
+     horsePut(h.id,'profile',{...DEFAULT_PROFILE});
+   }
+   const currentActivities=horseGet(h.id,'activities',null);
+   horsePut(h.id,'activities',
+     Array.isArray(currentActivities)&&currentActivities.length
+       ? currentActivities
+       : [...DEFAULT_ACTIVITIES]
+   );
+ });
+ rawPut('finances',[]);
+ rawPut('appointments',[]);
+ rawPut('plans',{});
+ rawPut('horseNotes',[]);
+ rawPut(marker,true);
+}
+ensureHorseData();
+resetEnteredDataOnce();
+loadHorseState();
+
+let filter='all',weekOffset=0,monthlyOffset=0,theme=rawGet('theme','dark');
+let editingExpenseId=null, editingAppointmentId=null;
+
+
+const activityIcons={
+  'Repos':`<path d="M5 15.5c2.5-3 5.5-3 7 0 1.5-3 4.5-3 7 0"/><path d="M8 18h8"/>`,
+  'Travail sur le plat':`<path d="M5 17c2-6 5-9 9-9 2 0 3 1 5 3"/><path d="M9 8 7 4M15 9l2-4M8 17l-2 3M16 17l2 3"/>`,
+  'Dressage':`<path d="M5 17c2-6 5-9 9-9 2 0 3 1 5 3"/><path d="M9 8 7 4M15 9l2-4M8 17l-2 3M16 17l2 3"/>`,
+  'Saut d’obstacles':`<path d="M4 18c2-6 5-9 8-9s5 3 8 9"/><path d="M4 18h16M8 13l-2-4M16 13l2-4"/>`,
+  'Trotting':`<path d="M5 17c3-6 6-9 10-9 2 0 3 1 4 3"/><path d="M10 8 8 4M15 8l2-4M8 17l-2 3M16 17l2 3"/>`,
+  'Cavaletti':`<path d="M4 18h16M8 18l4-8 4 8M10 12l-3-3M14 12l3-3"/>`,
+  'Paddock':`<path d="M4 20V8l8-5 8 5v12"/><path d="M8 20v-6h8v6M4 11h16"/>`,
+  'Prés':`<path d="M4 20c4-6 5-10 8-10s4 4 8 10"/><path d="M5 16h14M7 12h10"/>`,
+  'Saut de puce':`<path d="M5 18c2-6 4-9 7-9s5 3 7 9"/><path d="M5 18h14M9 13l-2-4M15 13l2-4"/>`,
+  'Balade extérieure':`<path d="M5 17c2-6 5-9 9-9 2 0 3 1 5 3"/><path d="M9 8 7 4M15 9l2-4M8 17l-2 3M16 17l2 3"/>`,
+  'Travail à pied':`<circle cx="9" cy="9" r="2"/><path d="M11 10c3 1 5 3 7 6M7 11l-2 5M12 17l-1 3"/>`,
+  'Longe':`<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/>`,
+  'Renforcement':`<path d="M4 10v4M7 8v8M17 8v8M20 10v4M7 12h10"/>`,
+  'Soin':`<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.4A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/><path d="M12 9v5M9.5 11.5h5"/>`
+};
+function iconForActivity(name){
+  let p=activityIcons[name];
+  if(!p){
+    const t=name.toLowerCase();
+    if(t.includes('saut')||t.includes('cavaletti'))p=activityIcons['Saut d’obstacles'];
+    else if(t.includes('repos'))p=activityIcons['Repos'];
+    else p=activityIcons['Travail sur le plat'];
+  }
+  return `<svg viewBox="0 0 24 24">${p}</svg>`;
+}
+const serviceIcons={
+ 'Vétérinaire':`<path d="M8 4v6M5 7h6M15 8c2-1 4 0 4 2v2c0 2-2 3-4 3s-4-1-4-3v-2c0-2 2-3 4-2z"/><path d="M9 13v6"/>`,
+ 'Maréchal-ferrant':`<path d="M7 5c2 1 4 1 5 1s3 0 5-1"/><path d="M7 6c0 7 2 12 5 14 3-2 5-7 5-14"/><path d="M9 12h6"/>`,
+ 'Dentiste équin':`<path d="M8 5c2-2 6-2 8 0 2 3 0 7-1 11-.5 2-2 2-3 0l-1-3-1 3c-1 2-2 2-3 0C6 12 6 8 8 5z"/>`,
+ 'Ostéopathe':`<path d="M7 18c2-5 3-10 5-12 2 2 4 7 5 12"/><path d="M9 8c-2 2-3 4-3 7M15 8c2 2 3 4 3 7"/>`,
+ 'Masseuse':`<circle cx="8" cy="7" r="2"/><circle cx="16" cy="7" r="2"/><path d="M8 12c2 3 6 3 8 0M7 16c3 2 7 2 10 0"/>`,
+ 'Sellier':`<path d="M5 17c1-5 4-8 7-8s6 3 7 8"/><path d="M8 17v3M16 17v3M6 14h12"/>`,
+ 'Alimentation':`<path d="M6 18c5-1 9-5 11-11-6 2-10 6-11 11z"/><path d="M6 18c3-3 5-5 8-7"/>`,
+ 'Pension':`<path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9M10 19v-5h4v5"/>`,
+ 'Matériel':`<path d="M5 12c2-4 5-6 7-6s5 2 7 6c-2 3-5 4-7 4s-5-1-7-4z"/>`,
+ 'Concours':`<path d="M6 20V4h11l-2 4 2 4H6"/><path d="M9 20h6"/>`,
+ 'Transport':`<path d="M5 17h14l-1-7H6z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/>`
+};
+function iconForService(name){
+  let p=serviceIcons[name]||`<circle cx="12" cy="12" r="7"/><path d="M12 8v8M8 12h8"/>`;
+  return `<svg viewBox="0 0 24 24">${p}</svg>`;
+}
+function themeIcon(){
+ return theme==='dark'
+ ? `<svg viewBox="0 0 24 24"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="3.5"/></svg>`
+ : `<svg viewBox="0 0 24 24"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2z"/></svg>`;
+}
+function setTheme(){
+ document.documentElement.classList.toggle('light',theme==='light');
+ document.documentElement.classList.remove('dark');
+ $('#themeBtn').innerHTML=themeIcon();
+ document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='dark'?'#211d1a':'#f4efe8');
+ rawPut('theme',theme);
+}
+$('#themeBtn').addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';setTheme()});
+setTheme();
+
+function openModal(id){$('#'+id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){if(id==='expenseModal')editingExpenseId=null;if(id==='appointmentModal')editingAppointmentId=null;$('#'+id).classList.remove('open');if(!$$('.modal-backdrop.open').length)document.body.style.overflow=''}
+$$('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
+$$('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),1600)}
+function renderProfileHorseSwitcher(){
+ const select=$('#profileHorseSelect'); if(!select)return;
+ select.innerHTML=horses.map(h=>`<option value="${esc(h.id)}">${esc(h.name||'Sans nom')}</option>`).join('');
+ select.value=activeHorseId;
+}
+function switchHorseFromProfile(id){switchHorse(id)}
+
+$('#profileHorseSelect')?.addEventListener('change',e=>switchHorseFromProfile(e.target.value));
+$('#profileHorseAdd')?.addEventListener('click',openHorseModal);
+$('#profileHorseRemove')?.addEventListener('click',removeActiveHorse);
+function removeActiveHorse(){
+ if(horses.length<=1){toast('Impossible de retirer le dernier cheval suivi');return}
+ const horseName=profile.name||'ce cheval';
+ if(!confirm(`Retirer ${horseName} du suivi ?\n\nLes données enregistrées pour ce cheval ne seront plus affichées et seront supprimées de l’application. Cette action est irréversible.`))return;
+ const removedId=activeHorseId;
+ const nextHorse=horses.find(h=>h.id!==removedId);
+ ['profile','finances','appointments','plans','activities','horseNotes'].forEach(k=>localStorage.removeItem(horseKey(removedId)+k));
+ horses=horses.filter(h=>h.id!==removedId);
+ rawPut('horses',horses);
+ activeHorseId=nextHorse.id;KEY=horseKey(activeHorseId);rawPut('activeHorseId',activeHorseId);
+ ensureHorseData();filter='all';weekOffset=0;monthlyOffset=0;
+ renderProfileHorseSwitcher();render();
+ toast(`${horseName} retiré`);
+}
+
+function closeAllModals(){
+ $$('.modal-backdrop.open').forEach(m=>m.classList.remove('open'));
+ document.body.style.overflow='';
+}
+function switchHorse(id){
+ if(!horses.some(h=>h.id===id)||id===activeHorseId){renderProfileHorseSwitcher();return}
+ saveHorseState();
+ activeHorseId=id;KEY=horseKey(activeHorseId);rawPut('activeHorseId',activeHorseId);
+ ensureHorseData();filter='all';weekOffset=0;monthlyOffset=0;closeAllModals();renderProfileHorseSwitcher();render();
+ window.scrollTo({top:0,behavior:'smooth'});
+ toast(`${profile.name||'Cheval'} sélectionné`);
+}
+function openHorseModal(){
+ $('#horseForm').reset();openModal('horseModal');setTimeout(()=>$('#horseName')?.focus(),100);
+}
+$('#horseForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const name=$('#horseName').value.trim();
+ if(!name){toast('Indique le nom du cheval');return}
+ const id=makeHorseId();
+ const p={name,birth:$('#horseBirth').value||'',discipline:$('#horseDiscipline').value.trim(),breed:$('#horseBreed').value.trim(),stable:$('#horseStable').value.trim(),note:''};
+ horses.push({id,name:p.name,birth:p.birth,discipline:p.discipline,breed:p.breed,stable:p.stable});
+ rawPut('horses',horses);
+ horsePut(id,'profile',p);horsePut(id,'finances',[]);horsePut(id,'appointments',[]);horsePut(id,'plans',{});horsePut(id,'activities',[...DEFAULT_ACTIVITIES]);horsePut(id,'horseNotes',[]);
+ saveHorseState();
+ activeHorseId=id;KEY=horseKey(id);rawPut('activeHorseId',id);loadHorseState();filter='all';weekOffset=0;monthlyOffset=0;
+ closeModal('horseModal');renderProfileHorseSwitcher();render();toast(`${name} ajouté`);
+});
+function showView(id){
+  $$('.view').forEach(v=>v.classList.toggle('hidden',v.id!==id));
+  $$('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+$$('.bottom button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+
+$$('[data-action]').forEach(b=>b.addEventListener('click',()=>{
+ const a=b.dataset.action;
+ if(a==='finance')showView('financeView');
+ if(a==='addExpense')openExpense();
+ if(a==='addAppointment')openAppointment();
+ if(a==='manageActivities')openActivities();
+ if(a==='editProfile')openProfile();
+ if(a==='addHorseNote')openHorseNote();
+}));
+
+function openExpense(){
+ editingExpenseId=null;
+ $('#expenseForm').reset();
+ $('#expenseDate').value=today();
+ $('#expenseStatus').value='paid';
+ $('#expenseInsurance').value='none';
+ $('#expenseRefundAmount').value='';
+ $('#expenseModal .modal-title').textContent='Ajouter une dépense';
+ openModal('expenseModal');
+}
+function editExpense(id){
+ const x=finances.find(v=>v.id===id);
+ if(!x)return;
+ editingExpenseId=id;
+ $('#expenseType').value=x.type||'Vétérinaire';
+ $('#expenseName').value=x.name||'';
+ $('#expenseDate').value=x.date||today();
+ $('#expenseAmount').value=Number(x.amount)||0;
+ $('#expenseStatus').value=x.status||'paid';
+ $('#expenseInsurance').value=x.insurance||'none';
+ $('#expenseRefundAmount').value=Number(x.refundAmount)||0;
+ $('#expenseNote').value=x.note||'';
+ $('#expenseModal .modal-title').textContent='Modifier la dépense';
+ openModal('expenseModal');
+}
+function openAppointment(){
+ editingAppointmentId=null;
+ $('#appointmentForm').reset();
+ $('#appointmentDate').value=today();
+ $('#appointmentTime').value='14:00';
+ $('#appointmentModal .modal-title').textContent='Ajouter un rendez-vous';
+ openModal('appointmentModal');
+}
+function editAppointment(id){
+ const x=appointments.find(v=>v.id===id);
+ if(!x)return;
+ editingAppointmentId=id;
+ $('#appointmentType').value=x.type||'Autre';
+ $('#appointmentName').value=x.name||'';
+ $('#appointmentDate').value=x.date||today();
+ $('#appointmentTime').value=x.time||'14:00';
+ $('#appointmentPlace').value=x.place||'';
+ $('#appointmentNote').value=x.note||'';
+ $('#appointmentModal .modal-title').textContent='Modifier le rendez-vous';
+ openModal('appointmentModal');
+}
+function openActivities(){renderActivityManager();openModal('activityModal')}
+function openProfile(){
+ $('#editName').value=profile.name||'';
+ $('#editBirth').value=profile.birth||'';
+ $('#editDiscipline').value=profile.discipline||'';
+ $('#editBreed').value=profile.breed||'';
+ $('#editStable').value=profile.stable||'';
+ $('#profileModalTitle').textContent=`Modifier la fiche · ${profile.name||'Cheval'}`;
+ openModal('profileModal');
+}
+function openHorseNote(){
+ $('#horseNoteForm').reset();
+ $('#horseNoteDate').value=today();
+ openModal('horseNoteModal');
+ setTimeout(()=>$('#horseNoteText')?.focus(),120);
+}
+
+$('#expenseForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const amount=Number($('#expenseAmount').value);
+ const refund=Math.max(0,Math.min(amount,Number($('#expenseRefundAmount').value)||0));
+ if(!$('#expenseName').value.trim()||!Number.isFinite(amount)||amount<0){toast('Vérifie les informations');return}
+ const data={type:$('#expenseType').value,name:$('#expenseName').value.trim(),date:$('#expenseDate').value,amount,status:$('#expenseStatus').value,note:$('#expenseNote').value.trim(),insurance:$('#expenseInsurance').value||'none',refundAmount:refund};
+ if(editingExpenseId!==null){
+   const i=finances.findIndex(x=>x.id===editingExpenseId);
+   if(i>=0) finances[i]={...finances[i],...data};
+   toast('Dépense modifiée');
+ }else{
+   finances.push({id:uid(),...data});
+   toast('Dépense enregistrée');
+ }
+ put('finances',finances);
+ editingExpenseId=null;
+ closeModal('expenseModal');
+ render();
+});
+$('#appointmentForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ if(!$('#appointmentName').value.trim()||!$('#appointmentDate').value){toast('Vérifie les informations');return}
+ const data={type:$('#appointmentType').value,name:$('#appointmentName').value.trim(),date:$('#appointmentDate').value,time:$('#appointmentTime').value||'14:00',place:$('#appointmentPlace').value.trim(),note:$('#appointmentNote').value.trim()};
+ if(editingAppointmentId!==null){
+   const i=appointments.findIndex(x=>x.id===editingAppointmentId);
+   if(i>=0) appointments[i]={...appointments[i],...data};
+   toast('Rendez-vous modifié');
+ }else{
+   appointments.push({id:uid(),...data});
+   toast('Rendez-vous ajouté');
+ }
+ put('appointments',appointments);
+ editingAppointmentId=null;
+ closeModal('appointmentModal');
+ render();
+});
+$('#horseNoteForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const date=$('#horseNoteDate').value;
+ const text=$('#horseNoteText').value.trim();
+ if(!date||!text){toast('Ajoute une date et une observation');return}
+ horseNotes.push({id:uid(),date,text});
+ horseNotes.sort((a,b)=>String(b.date).localeCompare(String(a.date))||Number(b.id)-Number(a.id));
+ put('horseNotes',horseNotes);
+ closeModal('horseNoteModal');
+ renderProfile();
+ toast('Note ajoutée');
+});
+$('#profileInfoText')?.addEventListener('input',()=>{
+ profile.note=$('#profileInfoText').value;
+ put('profile',profile);
+ syncHorseRegistry();
+ const saved=$('#profileInfoSaved');
+ if(saved){saved.textContent='Enregistré';clearTimeout(window._infoSavedTimer);window._infoSavedTimer=setTimeout(()=>saved.textContent='Enregistrement automatique',900);}
+});
+$('#profileForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ profile={...profile,name:$('#editName').value.trim()||'Sans nom',birth:$('#editBirth').value,discipline:$('#editDiscipline').value.trim()||'—',breed:$('#editBreed').value.trim(),stable:$('#editStable').value.trim()};
+ put('profile',profile);syncHorseRegistry();renderProfileHorseSwitcher();closeModal('profileModal');render();toast('Fiche mise à jour');
+});
+$('#addActivityBtn').addEventListener('click',()=>{
+ const v=$('#newActivity').value.trim();
+ if(!v)return;
+ if(activities.includes(v)){toast('Cette activité existe déjà');return}
+ activities.push(v);put('activities',activities);$('#newActivity').value='';renderActivityManager();renderPlanning();toast('Activité ajoutée');
+});
+
+function deleteExpense(id){if(!confirm('Supprimer cette dépense ?'))return;finances=finances.filter(x=>x.id!==id);put('finances',finances);render();toast('Dépense supprimée')}
+function deleteAppointment(id){if(!confirm('Supprimer ce rendez-vous ?'))return;appointments=appointments.filter(x=>x.id!==id);put('appointments',appointments);render();toast('Rendez-vous supprimé')}
+function renderHome(){
+ const now=new Date(),y=now.getFullYear(),m=now.getMonth();
+ const year=finances.filter(x=>dateObj(x.date).getFullYear()===y);
+ const month=year.filter(x=>dateObj(x.date).getMonth()===m);
+ const future=appointments.filter(x=>dateObj(x.date)>=new Date(new Date().toDateString())).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+ const horseName=profile.name||'Sans nom';
+ $('#brandName').textContent=horseName;$('#heroName').textContent=horseName;
+ const heroMeta=[profile.discipline,profile.breed,ageFromBirth(profile.birth)].filter(v=>v&&v!=='—').join(' · ');
+ $('#heroSub').textContent=heroMeta||'—';
+ $('#financePageSub').textContent=`Soins, matériel, pension et autres dépenses de ${horseName}.`;
+ $('#planningPageSub').textContent=`Une activité par jour pour ${horseName}.`;
+ $('#penseSub').textContent=`Ajoute des observations datées sur ${horseName}.`;
+ $('#profileNavLabel').textContent=horseName;
+ document.title=`Mon espace équin · ${horseName}`;
+ $('#monthSpend').textContent=euro(month.reduce((s,x)=>s+netExpense(x),0));$('#yearSpend').textContent=euro(year.reduce((s,x)=>s+netExpense(x),0));$('#futureCount').textContent=future.length;
+ if(future[0]){
+   const a=future[0],d=daysBetween(a.date);
+   const dayLabel=d===0?'Aujourd’hui':`J−${d}`;
+   $('#nextAppointment').innerHTML=`<div class="next appointment-card">
+      <div class="appointment-content">
+        <div class="kicker">PROCHAIN RENDEZ-VOUS</div>
+        <div class="row-title">${esc(a.type)}${a.name?` <span class="next-appointment-name">· ${esc(a.name)}</span>`:""}</div>
+        <div class="row-sub">${dateFr(a.date)}${a.time?' · '+esc(a.time):''}${a.place?' · '+esc(a.place):''}</div>
+      </div>
+      <div class="countdown"><b>${dayLabel}</b><span>${d===0?'':d===1?'demain':'à venir'}</span></div>
+   </div>`;
+ }else $('#nextAppointment').innerHTML='<div class="next appointment-card"><div class="appointment-content"><div class="kicker">PROCHAIN RENDEZ-VOUS</div><div class="row-title">Aucun rendez-vous</div><div class="row-sub">Ajoute le prochain soin ou concours.</div></div></div>';
+ const recent=[...finances].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+ $('#recentExpenses').innerHTML=recent.length?recent.map(x=>expenseRow(x)).join(''):'<div class="empty">Aucune dépense enregistrée.</div>';
+ $('#upcomingList').innerHTML=future.length?future.map(x=>appointmentRow(x)).join(''):'<div class="empty">Aucun rendez-vous à venir.</div>';
+}
+function netExpense(x){
+ return Math.max(0,(Number(x.amount)||0)-(Number(x.refundAmount)||0));
+}
+function refundAmount(x){return Math.max(0,Math.min(Number(x.amount)||0,Number(x.refundAmount)||0));}
+function insuranceLabel(v){
+ if(v==='pending')return 'En attente du remboursement';
+ if(v==='paid')return 'Remboursé';
+ return 'Pas de remboursement';
+}
+function expenseRow(x){
+ return `<div class="list-row"><div class="row-mark" aria-hidden="true"></div><div class="finance-row-meta"><div class="row-title">${esc(x.type)}</div><div class="row-sub">${esc(x.name)} · ${dateFr(x.date)}</div><div class="expense-status-line"><span class="status ${x.status==='paid'?'paid':'due'}">${x.status==='paid'?'Payée':'À payer'}</span><span class="insurance-tag insurance-${x.insurance||"none"}">${insuranceLabel(x.insurance)}</span></div></div><div class="amount">${euro(netExpense(x))}</div><div class="row-actions"><button class="edit-btn" data-edit-expense="${x.id}" type="button" aria-label="Modifier la dépense">✎</button><button class="delete-btn" data-delete-expense="${x.id}" type="button" aria-label="Supprimer">×</button></div></div>`;
+}
+function appointmentRow(x){
+ const d=daysBetween(x.date);
+ return `<div class="list-row"><div class="row-mark" aria-hidden="true"></div><div><div class="row-title">${esc(x.type)}</div><div class="row-sub">${esc(x.name)} · ${dateFr(x.date)} · ${esc(x.time||'')}${x.place?' · '+esc(x.place):''}</div><span class="status paid">Dans ${d} jour${d>1?'s':''}</span></div><div></div><div class="row-actions"><button class="edit-btn" data-edit-appointment="${x.id}" type="button" aria-label="Modifier le rendez-vous">✎</button><button class="delete-btn" data-delete-appointment="${x.id}" type="button" aria-label="Supprimer">×</button></div></div>`;
+}
+
+function renderMonthlyChart(){
+ const now=new Date();
+ const monthKeys=new Set();
+ finances.forEach(x=>{
+   const raw=String(x.date||'').slice(0,7);
+   if(/^\d{4}-\d{2}$/.test(raw))monthKeys.add(raw);
+ });
+ const currentKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+ monthKeys.add(currentKey);
+ const sorted=[...monthKeys].sort();
+ if(!sorted.length)return;
+ const first=dateObj(`${sorted[0]}-01`);
+ const last=dateObj(`${currentKey}-01`);
+ const all=[];
+ for(let d=new Date(first.getFullYear(),first.getMonth(),1);d<=last;d=new Date(d.getFullYear(),d.getMonth()+1,1)){
+   all.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,date:new Date(d)});
+ }
+ const windowSize=6;
+ const maxStart=Math.max(0,all.length-windowSize);
+ monthlyOffset=Math.max(0,Math.min(maxStart,Number(monthlyOffset)||0));
+ const startIndex=maxStart-monthlyOffset;
+ const months=all.slice(startIndex,startIndex+windowSize).map(item=>{
+   const value=finances.filter(x=>String(x.date||'').slice(0,7)===item.key).reduce((sum,x)=>sum+netExpense(x),0);
+   return {key:item.key,value,label:item.date.toLocaleDateString('fr-FR',{month:'short'}).replace('.',''),year:item.date.getFullYear(),current:item.key===currentKey};
+ });
+ const max=Math.max(...months.map(x=>x.value),1);
+ const total=months.reduce((sum,x)=>sum+x.value,0);
+ const totalEl=$('#monthlyTotal'),barsEl=$('#monthlyBars'),rangeLabel=$('#monthlyRangeLabel');
+ if(totalEl)totalEl.textContent=euro(total);
+ if(rangeLabel){
+   const a=months[0],b=months[months.length-1];
+   rangeLabel.textContent=a&&b?`${a.label} ${a.year} → ${b.label} ${b.year}`:'6 derniers mois';
+ }
+ const olderBtn=$('#monthlyOlder');
+ if(olderBtn){
+   olderBtn.disabled=maxStart===0 || monthlyOffset>=maxStart;
+   olderBtn.title=olderBtn.disabled?'Aucun mois antérieur disponible':'Afficher les mois précédents';
+   olderBtn.onclick=()=>{
+     if(monthlyOffset>=maxStart)return;
+     monthlyOffset=Math.min(maxStart,monthlyOffset+1);
+     renderMonthlyChart();
+   };
+ }
+ const newerBtn=$('#monthlyNewer');
+ if(newerBtn){
+   newerBtn.disabled=monthlyOffset<=0;
+   newerBtn.title=newerBtn.disabled?'Déjà sur les mois les plus récents':'Revenir vers les mois récents';
+   newerBtn.onclick=()=>{
+     if(monthlyOffset<=0)return;
+     monthlyOffset=Math.max(0,monthlyOffset-1);
+     renderMonthlyChart();
+   };
+ }
+ if(!barsEl)return;
+ barsEl.setAttribute('aria-label',`Dépenses de ${months[0]?.label||''} ${months[0]?.year||''} à ${months[months.length-1]?.label||''} ${months[months.length-1]?.year||''}`);
+ barsEl.innerHTML=months.map(x=>{
+   const h=x.value?Math.max(5,Math.round(x.value/max*100)):2;
+   return `<div class="monthly-col ${x.current?'current':''}" title="${esc(x.label+' '+x.year)} : ${euro(x.value)}">
+      <div class="monthly-value">${x.value?euro(x.value).replace(/\s/g,''):''}</div>
+      <div class="monthly-bar-zone"><div class="monthly-bar ${x.value?'':'empty'}" style="height:${h}%"></div></div>
+      <div class="monthly-label">${esc(x.label)}</div>
+   </div>`;
+ }).join('');
+}
+
+function renderFinance(){
+ const y=new Date().getFullYear();
+ const currentYear=finances.filter(x=>dateObj(x.date).getFullYear()===y);
+ const paid=currentYear.filter(x=>x.status==='paid').reduce((s,x)=>s+netExpense(x),0);
+ const due=currentYear.filter(x=>x.status!=='paid').reduce((s,x)=>s+netExpense(x),0);
+ const total=paid+due;
+ const overview=filter==='all';
+
+ ['financeStats','financeChart','financeSummary'].forEach(id=>{
+   $('#'+id)?.classList.toggle('finance-overview-hidden',!overview);
+ });
+
+ if(overview){
+   renderMonthlyChart();
+   $('#invoiceCount').textContent=currentYear.length;
+   $('#paidTotal').textContent=euro(paid);
+   $('#dueTotal').textContent=euro(due);
+   $('#financeTotal').textContent=euro(total);
+   $('#paidRate').textContent=(total?Math.round(paid/total*100):0)+' % payé';
+   $('#financeProgress').style.width=(total?paid/total*100:0)+'%';
+ }
+
+ let list=[...finances].sort((a,b)=>(String(b.date)+String(b.id)).localeCompare(String(a.date)+String(a.id)));
+ if(filter==='paid')list=list.filter(x=>x.status==='paid');
+ if(filter==='unpaid')list=list.filter(x=>x.status!=='paid');
+ if(filter==='refund')list=list.filter(x=>x.insurance==='pending');
+
+ $('#financeList').innerHTML=list.length
+   ?list.map(x=>expenseRow(x)).join('')
+   :'<div class="empty">Aucune dépense dans cette sélection.</div>';
+}
+$$('#financeFilters button').forEach(b=>b.addEventListener('click',()=>{$$('#financeFilters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;renderFinance()}));
+function monday(){
+ const d=new Date();d.setHours(12,0,0,0);const n=d.getDay();d.setDate(d.getDate()+(n===0?-6:1-n)+weekOffset*7);return d;
+}
+function weekDates(){const s=monday();return Array.from({length:7},(_,i)=>{const d=new Date(s);d.setDate(s.getDate()+i);return d})}
+$$('[data-week]').forEach(b=>b.addEventListener('click',()=>{const n=Number(b.dataset.week);weekOffset=n===0?0:weekOffset+n;renderPlanning()}));
+function setDay(k,value){plans[k]={type:value};put('plans',plans);renderPlanning();toast('Planning mis à jour')}
+function renderPlanning(){
+ const ds=weekDates(),start=ds[0],end=ds[6];
+ $('#weekTitle').textContent=weekOffset===0?'Cette semaine':`${start.getDate()} ${start.toLocaleDateString('fr-FR',{month:'short'})} — ${end.getDate()} ${end.toLocaleDateString('fr-FR',{month:'short'})}`;
+ $('#weekRows').innerHTML=ds.map(d=>{
+  const k=d.toISOString().slice(0,10),current=plans[k]?.type||'Repos';
+  return `<div class="day ${k===today()?'today':''}"><div class="day-date"><div class="dayname">${d.toLocaleDateString('fr-FR',{weekday:'short'}).replace('.','')}</div><div class="daynum">${d.getDate()}</div></div><select class="activity-select" data-day="${k}">${activities.map(a=>`<option ${a===current?'selected':''}>${esc(a)}</option>`).join('')}</select><span class="chevron">›</span></div>`;
+ }).join('');
+ $$('#weekRows select').forEach(s=>s.addEventListener('change',()=>setDay(s.dataset.day,s.value)));
+ $('#activityList').innerHTML=activities.map(a=>`<span class="activity-chip"><span>${esc(a)}</span></span>`).join('');
+}
+function renderActivityManager(){
+ $('#manageActivities').innerHTML=activities.map((a,i)=>`<div class="manage-row"><span>${esc(a)}</span><div><button class="mini-btn" data-move="-1" data-index="${i}" type="button">↑</button><button class="mini-btn" data-move="1" data-index="${i}" type="button">↓</button><button class="mini-btn" data-remove="${i}" type="button">×</button></div></div>`).join('');
+ $$('#manageActivities [data-move]').forEach(b=>b.addEventListener('click',()=>{const i=Number(b.dataset.index),j=i+Number(b.dataset.move);if(j<0||j>=activities.length)return;[activities[i],activities[j]]=[activities[j],activities[i]];put('activities',activities);renderActivityManager();renderPlanning()}));
+ $$('#manageActivities [data-remove]').forEach(b=>b.addEventListener('click',()=>{const i=Number(b.dataset.remove);if(activities[i]==='Repos'){toast('Repos ne peut pas être supprimé');return}if(!confirm('Supprimer cette activité ?'))return;activities.splice(i,1);put('activities',activities);renderActivityManager();renderPlanning();toast('Activité supprimée')}));
+}
+function ageFromBirth(s){
+ if(!s)return '—';const b=dateObj(s),n=new Date();let age=n.getFullYear()-b.getFullYear();if(n.getMonth()<b.getMonth()||(n.getMonth()===b.getMonth()&&n.getDate()<b.getDate()))age--;return age>=0?`${age} an${age>1?'s':''}`:'—';
+}
+function renderProfile(){
+ renderProfileHorseSwitcher();
+ const age=ageFromBirth(profile.birth);
+ const horseName=profile.name||'Sans nom';
+ $('#profileName').textContent=horseName;
+ $('#profileAge').textContent=(profile.discipline||'—')+' · '+(age==='—'?'Âge non renseigné':age);
+ $('#profileBirth').textContent=profile.birth?dateObj(profile.birth).toLocaleDateString('fr-FR'):'—';
+ $('#profileAgeBox').textContent=age;
+ $('#profileDiscipline').textContent=profile.discipline||'—';
+ $('#profileBreed').textContent=profile.breed||'—';
+ $('#profileStable').textContent=profile.stable||'—';
+ const info=$('#profileInfoText');
+ if(info&&document.activeElement!==info)info.value=profile.note||'';
+ $('#profileInfoSaved').textContent='Enregistrement automatique';
+ $('#profileNavLabel').textContent=horseName;
+ $('#profileModalTitle').textContent=`Modifier la fiche · ${horseName}`;
+ const sorted=[...horseNotes].sort((a,b)=>String(b.date).localeCompare(String(a.date))||Number(b.id)-Number(a.id));
+ $('#horseNotesList').innerHTML=sorted.length
+   ?sorted.map(n=>`<article class="horse-note">
+       <button class="note-delete" data-delete-note="${n.id}" type="button" aria-label="Supprimer la note">×</button>
+       <div class="horse-note-date">${dateFrLong(n.date)}</div>
+       <div class="horse-note-text">${esc(n.text)}</div>
+     </article>`).join('')
+   :'<div class="note-empty">Aucune observation enregistrée. Utilise 🥕 pour ajouter une note datée.</div>';
+}
+document.addEventListener('click',e=>{
+ const ee=e.target.closest('[data-edit-expense]');if(ee){editExpense(Number(ee.dataset.editExpense));return}
+ const ed=e.target.closest('[data-delete-expense]');if(ed){deleteExpense(Number(ed.dataset.deleteExpense));return}
+ const ea=e.target.closest('[data-edit-appointment]');if(ea){editAppointment(Number(ea.dataset.editAppointment));return}
+ const ad=e.target.closest('[data-delete-appointment]');if(ad){deleteAppointment(Number(ad.dataset.deleteAppointment));return}
+ const nd=e.target.closest('[data-delete-note]');
+ if(nd){
+   const id=Number(nd.dataset.deleteNote);
+   if(!confirm('Supprimer cette note ?'))return;
+   horseNotes=horseNotes.filter(n=>n.id!==id);
+   put('horseNotes',horseNotes);
+   renderProfile();
+   toast('Note supprimée');
+ }
+});
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.modal-backdrop.open').forEach(m=>closeModal(m.id))});
+
+function render(){renderHome();renderFinance();renderPlanning();renderProfile()}
+
+/* Firebase Realtime Database + Authentication */
+(function(){
+  const authGate=$('#authGate'), authForm=$('#authForm'), authSwitch=$('#authSwitch');
+  const authTitle=$('#authTitle'), authSub=$('#authSub'), authSubmit=$('#authSubmit'), authError=$('#authError');
+  const auth=window.__firebaseAuth, db=window.__firebaseDB;
+  let authMode='login', syncTimer=null, cloudListener=null, cloudReady=false;
+
+  const authMessage=(code,raw='')=>{
+    const map={
+      'auth/invalid-email':'Adresse e-mail invalide.',
+      'auth/invalid-credential':'E-mail ou mot de passe incorrect.',
+      'auth/email-already-in-use':'Cette adresse e-mail possède déjà un compte. Utilise « Se connecter ».',
+      'auth/weak-password':'Le mot de passe doit contenir au moins 6 caractères.',
+      'auth/password-does-not-meet-requirements':'Le mot de passe ne respecte pas les exigences de sécurité Firebase.',
+      'auth/operation-not-allowed':'La connexion E-mail/Mot de passe n’est pas activée. Dans Firebase : Authentication → Sign-in method → E-mail/Mot de passe → Activer.',
+      'auth/configuration-not-found':'Firebase Authentication n’est pas encore configuré pour ce projet. Ouvre Firebase → Authentication et termine la configuration.',
+      'auth/app-not-authorized':'Cette application n’est pas autorisée par Firebase. Vérifie Authentication → Settings → Authorized domains.',
+      'auth/invalid-api-key':'La clé API Firebase est invalide ou ne correspond pas au projet.',
+      'auth/network-request-failed':'Connexion Internet indisponible ou bloquée.',
+      'auth/too-many-requests':'Trop de tentatives. Réessaie dans quelques instants.',
+      'auth/internal-error':'Firebase a rencontré une erreur interne. Réessaie après avoir vérifié Authentication.'
+    };
+    return map[code] || `Erreur Firebase (${code||'inconnue'}).${raw?' '+raw:''}`;
+  };
+  function showAuth(){authGate.classList.add('show');authGate.setAttribute('aria-hidden','false')}
+  function hideAuth(){authGate.classList.remove('show');authGate.setAttribute('aria-hidden','true')}
+  function updateAuthMode(){
+    const login=authMode==='login';
+    authTitle.textContent=login?'Connexion':'Créer mon compte';
+    authSub.textContent=login?'Connecte-toi pour retrouver tes données sur tous tes appareils.':'Crée ton compte Firebase pour synchroniser tes données entre tes appareils.';
+    authSubmit.textContent=login?'Se connecter':'Créer le compte';
+    authSwitch.textContent=login?'Créer un compte':'J’ai déjà un compte';
+    $('#authPassword').setAttribute('autocomplete',login?'current-password':'new-password');
+    authError.textContent='';
+  }
+  authSwitch.addEventListener('click',()=>{authMode=authMode==='login'?'signup':'login';updateAuthMode()});
+  authForm.addEventListener('submit',async e=>{
+    e.preventDefault();
+    authError.textContent='';
+    const email=$('#authEmail').value.trim(), password=$('#authPassword').value;
+    authSubmit.disabled=true;
+    try{
+      if(authMode==='login')await auth.signInWithEmailAndPassword(email,password);
+      else await auth.createUserWithEmailAndPassword(email,password);
+    }catch(err){
+      console.error('Firebase Authentication error',err);
+      authError.textContent=authMessage(err?.code,err?.message);
+    }
+    finally{authSubmit.disabled=false}
+  });
+
+  function collectLocal(){
+    const out={};
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k||!k.startsWith(BASE_KEY))continue;
+      try{out[k.slice(BASE_KEY.length)]=JSON.parse(localStorage.getItem(k))}
+      catch{out[k.slice(BASE_KEY.length)]=localStorage.getItem(k)}
+    }
+    return out;
+  }
+  function applyCloud(data){
+    __firebaseApplying=true;
+    try{
+      const incoming=data||{};
+      const keep=new Set(Object.keys(incoming));
+      for(let i=localStorage.length-1;i>=0;i--){
+        const k=localStorage.key(i);
+        if(k&&k.startsWith(BASE_KEY)&&!keep.has(k.slice(BASE_KEY.length)))localStorage.removeItem(k);
+      }
+      Object.entries(incoming).forEach(([k,v])=>localStorage.setItem(BASE_KEY+k,JSON.stringify(v)));
+      horses=rawGet('horses',horses);
+      if(!Array.isArray(horses)||!horses.length)return;
+      activeHorseId=rawGet('activeHorseId',horses[0].id);
+      if(!horses.some(h=>h.id===activeHorseId))activeHorseId=horses[0].id;
+      KEY=horseKey(activeHorseId);
+      ensureHorseData();
+      loadHorseState();
+      theme=rawGet('theme',theme);
+      setTheme();
+      renderProfileHorseSwitcher();
+      render();
+    }finally{__firebaseApplying=false}
+  }
+  function queueSync(){
+    if(!cloudReady||__firebaseApplying||!auth.currentUser)return;
+    clearTimeout(syncTimer);
+    syncTimer=setTimeout(async()=>{
+      try{await db.ref('users/'+auth.currentUser.uid+'/app').set(collectLocal())}
+      catch(err){console.error('Firebase sync write failed',err)}
+    },120);
+  }
+  window.__queueFirebaseSync=queueSync;
+
+  async function startSync(user){
+    cloudReady=false;
+    const root=db.ref('users/'+user.uid+'/app');
+    try{
+      const snap=await root.once('value');
+      if(snap.exists()&&snap.val()&&Object.keys(snap.val()).length)applyCloud(snap.val());
+      else await root.set(collectLocal());
+      cloudReady=true;
+      if(cloudListener)cloudListener();
+      cloudListener=root.on('value',s=>{
+        if(!cloudReady)return;
+        const remote=s.val();
+        if(remote)applyCloud(remote);
+      });
+    }catch(err){
+      console.error('Firebase sync init failed',err);
+      authError.textContent='Impossible de charger les données synchronisées. Vérifie les règles Realtime Database.';
+      showAuth();
+    }
+  }
+  auth.onAuthStateChanged(async user=>{
+    if(!user){
+      cloudReady=false;
+      if(cloudListener){cloudListener();cloudListener=null}
+      showAuth();
+      return;
+    }
+    hideAuth();
+    await startSync(user);
+  });
+  window.__firebaseLogout=()=>auth.signOut();
+  updateAuthMode();
+})();
+
+renderProfileHorseSwitcher();
+render();
+window.addEventListener('beforeunload',()=>{try{saveHorseState()}catch{}});
+</script>
+</body>
+
+<style id="v26-firebase-auth">
+.auth-gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(20,17,15,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.auth-gate.show{display:flex}
+.auth-card{width:min(100%,390px);padding:26px 20px 20px;border:1px solid #51453a;border-radius:24px;background:#28211d;color:#f4eee8;box-shadow:0 24px 80px rgba(0,0,0,.34)}
+.auth-kicker{font-size:11px;letter-spacing:.16em;font-weight:800;color:#b98d67;margin-bottom:8px}
+.auth-title{font-size:28px;line-height:1.1;font-weight:800;letter-spacing:-.03em}
+.auth-sub{margin-top:8px;color:#bdb3aa;font-size:14px;line-height:1.45}
+.auth-field{display:block;margin-top:16px}
+.auth-field span{display:block;margin-bottom:7px;font-size:12px;color:#c8beb5;font-weight:700}
+.auth-field input{width:100%;height:46px;box-sizing:border-box;border:1px solid #51453a;border-radius:12px;background:#211c19;color:#fff;padding:0 13px;font:inherit;outline:none}
+.auth-field input:focus{border-color:#b98d67;box-shadow:0 0 0 3px rgba(185,141,103,.13)}
+.auth-submit{width:100%;height:46px;margin-top:18px;border:0;border-radius:12px;background:#b98d67;color:#241a13;font-weight:800;font-size:14px;cursor:pointer}
+.auth-submit:disabled{opacity:.55;cursor:wait}
+.auth-switch{display:block;width:100%;margin-top:10px;border:0;background:transparent;color:#d7b594;font-weight:700;padding:8px;cursor:pointer}
+.auth-error{min-height:20px;margin-top:7px;color:#e5a49b;font-size:13px;line-height:1.35;text-align:center}
+.auth-note{margin-top:10px;padding-top:12px;border-top:1px solid #3d342e;color:#938981;font-size:11px;line-height:1.45;text-align:center}
+:root.light .auth-gate{background:rgba(50,43,37,.35)}
+:root.light .auth-card{background:#f8f4ef;color:#302821;border-color:#d5c8bb}
+:root.light .auth-sub{color:#75695f}
+:root.light .auth-field span{color:#685c52}
+:root.light .auth-field input{background:#fff;color:#302821;border-color:#d5c8bb}
+:root.light .auth-note{border-color:#e2d8ce;color:#87796d}
+@media(max-width:390px){.auth-gate{padding:14px}.auth-card{border-radius:20px;padding:22px 16px 16px}.auth-title{font-size:25px}}
+</style>
+</html>
+<style id="v21-profile-selector">
+.profile-horse-switcher{margin-top:8px!important;margin-bottom:18px!important;padding:8px 10px!important;gap:7px!important}
+.profile-horse-switcher select{height:34px!important;font-size:14px!important;border-radius:10px!important;padding:0 9px!important}
+.profile-horse-add{height:34px!important;font-size:12px!important;border-radius:10px!important;padding:0 9px!important}
+@media(max-width:430px){.profile-horse-switcher{margin-top:6px!important;margin-bottom:18px!important;padding:7px 9px!important}.profile-horse-switcher label{font-size:9px!important}.profile-horse-switcher select{height:34px!important;font-size:15px!important}.profile-horse-add{height:34px!important;font-size:12px!important}}
+<style id="v22-finance-ui">
+.segment button{font-size:10px!important;letter-spacing:-.01em!important}
+@media(max-width:430px){.segment button{font-size:9px!important}}
+.monthly-history-control{display:flex;align-items:center;gap:9px;margin-top:8px;min-height:30px}
+.monthly-older-btn{width:32px;height:30px;flex:0 0 32px;border:1px solid var(--line);border-radius:10px;background:var(--soft2);color:var(--ink);font-size:22px;font-weight:800;line-height:1;display:grid;place-items:center;padding:0;cursor:pointer}
+.monthly-older-btn:active{transform:scale(.96)}
+.monthly-older-btn:disabled{opacity:.35;cursor:default}
+.monthly-history-control span{font-size:9px;font-weight:800;color:var(--muted)}
+.next-appointment-name{font-weight:500;color:var(--muted);font-size:.82em}
+</style>
+
+<style id="v21-next-appointment">
+.appointment-card .countdown{min-width:100px!important;width:100px!important;flex:0 0 100px!important;padding:8px 6px!important;box-sizing:border-box!important;overflow:hidden!important}
+.appointment-card .countdown b{font-size:13px!important;line-height:1.1!important;white-space:nowrap!important;display:block!important;max-width:100%!important;text-align:center!important}
+.appointment-card .countdown span{display:none!important}
+.appointment-card .appointment-content{min-width:0!important}
+@media(max-width:430px){.next.appointment-card{grid-template-columns:minmax(0,1fr) 100px!important;gap:12px!important}.appointment-card .countdown{min-width:100px!important;width:100px!important;flex-basis:100px!important;height:64px!important}}
+@media(max-width:375px){.appointment-card .countdown{width:100%!important;min-width:0!important;flex-basis:auto!important;height:42px!important}}
+</style>
+
