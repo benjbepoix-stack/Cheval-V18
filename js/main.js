@@ -11,7 +11,7 @@ import { toast, toastError } from './ui/toast.js';
 import { icon } from './ui/icons.js';
 import { initCalendarPrompt } from './features/calendar-prompt.js';
 import { renderHome } from './views/home.js';
-import { initAppointments, openAppointment, renderPastSheet } from './views/appointments.js';
+import { initAppointments, openAppointment, renderPastSheet, exportUpcoming } from './views/appointments.js';
 import { initFinance, renderFinance, openExpense } from './views/finance.js';
 import { initPlanning, renderPlanning, openActivities } from './views/planning.js';
 import { initProfile, renderProfile, openHorse, openNote, openSwitcher } from './views/profile.js';
@@ -196,6 +196,7 @@ function onOpen(e) {
   else if (what === 'horse') openHorse(false);
   else if (what === 'note') openNote();
   else if (what === 'contact') openContact();
+  else if (what === 'export') exportUpcoming();
 }
 
 async function init() {

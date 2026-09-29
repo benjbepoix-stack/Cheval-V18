@@ -76,20 +76,13 @@ export function eventWindow({ date, time, endTime, durationMinutes }) {
 }
 
 /**
- * Construit le contenu .ics d'un événement.
- * @param {{id:string,title:string,date:string,time?:string,endTime?:string,
- *          location?:string,description?:string,alarmMinutes?:number}} event
+ * Lignes VEVENT d'un événement.
  */
-export function buildICS(event) {
+function veventLines(event) {
   const span = eventWindow(event);
   if (!span) throw new Error('Date de l’événement invalide.');
   const { allDay, start, end } = span;
   const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    `PRODID:${PRODID}`,
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
     'BEGIN:VEVENT',
     // UID stable : réimporter un rendez-vous modifié met à jour l'événement existant.
     `UID:${escapeText(event.id)}@mon-espace-equin`,
@@ -106,8 +99,40 @@ export function buildICS(event) {
   if (!allDay && Number.isFinite(alarm) && alarm > 0) {
     lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escapeText(event.title)}`, `TRIGGER:-PT${Math.round(alarm)}M`, 'END:VALARM');
   }
-  lines.push('END:VEVENT', 'END:VCALENDAR');
+  lines.push('END:VEVENT');
+  return lines;
+}
+
+/**
+ * Construit un fichier .ics contenant un ou plusieurs événements.
+ * @param {object|object[]} events  {id,title,date,time?,endTime?,location?,description?,alarmMinutes?}
+ */
+export function buildICS(events) {
+  const list = Array.isArray(events) ? events : [events];
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', `PRODID:${PRODID}`, 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Cavalia', ...list.flatMap(veventLines), 'END:VCALENDAR'];
   return lines.map(foldLine).join('\r\n') + '\r\n';
+}
+
+/**
+ * Lien « nouvel événement » d'Outlook sur le web, prérempli.
+ * @param {'live'|'office'} account  live = compte personnel (outlook.com, hotmail…), office = compte pro/école (Microsoft 365)
+ */
+export function outlookUrl(event, account = 'live') {
+  const span = eventWindow(event);
+  if (!span) throw new Error('Date de l’événement invalide.');
+  const { allDay, start, end } = span;
+  const params = new URLSearchParams({
+    path: '/calendar/action/compose',
+    rru: 'addevent',
+    subject: event.title || '',
+    startdt: allDay ? event.date : start.toISOString(),
+    enddt: allDay ? `${end.getFullYear()}-${pad(end.getMonth() + 1)}-${pad(end.getDate())}` : end.toISOString()
+  });
+  if (allDay) params.set('allday', 'true');
+  if (event.location) params.set('location', event.location);
+  if (event.description) params.set('body', event.description);
+  const host = account === 'office' ? 'outlook.office.com' : 'outlook.live.com';
+  return `https://${host}/calendar/0/deeplink/compose?${params.toString()}`;
 }
 
 export const isIOS = () =>

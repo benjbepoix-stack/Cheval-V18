@@ -5,7 +5,7 @@
  */
 import { $, esc } from '../core/utils.js';
 import { formatKey, isTime } from '../core/dates.js';
-import { buildICS, openInCalendar, shareICS, isIOS, isStandalone } from './ics.js';
+import { buildICS, openInCalendar, shareICS, outlookUrl, isIOS, isStandalone } from './ics.js';
 import { openSheet, closeSheet } from '../ui/dialog.js';
 import { icon } from '../ui/icons.js';
 import { toast, toastError } from '../ui/toast.js';
@@ -24,6 +24,12 @@ function timeRange(e) {
 export function offerCalendar(event, { heading = 'Ajouter au calendrier ?', synced = null } = {}) {
   currentEvent = event;
   const canShare = typeof navigator.canShare === 'function' && isIOS();
+  let outlook = null;
+  try {
+    outlook = { live: outlookUrl(event, 'live'), office: outlookUrl(event, 'office') };
+  } catch {
+    /* date invalide : pas de lien Outlook */
+  }
   const syncLine =
     synced === true
       ? `<p class="cal-card__sync is-ok">${icon('cloud', 14)} Enregistré et synchronisé</p>`
@@ -42,15 +48,22 @@ export function offerCalendar(event, { heading = 'Ajouter au calendrier ?', sync
     </div>
     <div class="dialog__actions dialog__actions--stack">
       <button type="button" class="btn btn--primary btn--lg" data-cal="open">${icon('calendarPlus', 18)}<span>${isIOS() ? 'Ajouter au Calendrier' : 'Télécharger l’événement (.ics)'}</span></button>
+      ${outlook ? `<a class="btn btn--soft btn--lg" href="${esc(outlook.live)}" target="_blank" rel="noopener" data-cal-link>${icon('mail', 18)}<span>Ajouter à Outlook</span></a>` : ''}
       ${canShare ? `<button type="button" class="btn btn--soft" data-cal="share">${icon('share', 18)}<span>Partager le fichier .ics</span></button>` : ''}
       <button type="button" class="btn btn--ghost" data-close>Plus tard</button>
     </div>
+    ${outlook ? `<p class="cal-hint">Compte Outlook professionnel ou scolaire (Microsoft 365) : <a href="${esc(outlook.office)}" target="_blank" rel="noopener" data-cal-link>ouvrir ici</a>.</p>` : ''}
     ${isIOS() && isStandalone() ? '<p class="cal-hint">Astuce : si la fiche Calendrier ne s’affiche pas depuis l’écran d’accueil, utilisez « Partager » puis « Calendrier ».</p>' : ''}`;
   openSheet('calendarSheet', { focus: false });
 }
 
 export function initCalendarPrompt() {
   $('#calendarSheet').addEventListener('click', async e => {
+    if (e.target.closest('[data-cal-link]')) {
+      // Le lien s'ouvre dans un nouvel onglet ; on referme la fenêtre ici.
+      setTimeout(() => closeSheet('calendarSheet'), 300);
+      return;
+    }
     const btn = e.target.closest('[data-cal]');
     if (!btn || !currentEvent) return;
     let ics;

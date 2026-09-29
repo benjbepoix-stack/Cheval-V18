@@ -1,6 +1,11 @@
 /* =========================================================
-   MON ESPACE ÉQUIN — styles propres à l'application
+   CAVALIA — styles propres à l'application
    ========================================================= */
+
+/* Export des rendez-vous */
+.section__head .section__tools { flex: none; gap: var(--sp-2); }
+.section__head > .section__title { min-width: 0; }
+.cal-hint a { color: var(--accent); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 
 /* ---------- Écran de connexion ---------- */
 .auth {

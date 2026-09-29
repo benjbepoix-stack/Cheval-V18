@@ -89,7 +89,10 @@
       <section class="section">
         <header class="section__head">
           <h2 class="section__title">Rendez-vous à venir</h2>
-          <button type="button" class="carrot" data-open="appointment" aria-label="Ajouter un rendez-vous" title="Ajouter un rendez-vous">🥕</button>
+          <div class="section__tools">
+            <button type="button" class="link-btn" data-open="export" title="Exporter tous les rendez-vous à venir (Outlook, Google Agenda, Calendrier)" aria-label="Exporter tous les rendez-vous à venir vers Outlook ou un autre agenda">Exporter</button>
+            <button type="button" class="carrot" data-open="appointment" aria-label="Ajouter un rendez-vous" title="Ajouter un rendez-vous">🥕</button>
+          </div>
         </header>
         <div class="card card--list" id="upcomingList"></div>
       </section>

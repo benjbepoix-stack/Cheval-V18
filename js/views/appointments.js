@@ -9,7 +9,8 @@ import { toast, toastError } from '../ui/toast.js';
 import { icon } from '../ui/icons.js';
 import { serviceIcon } from '../ui/equine-icons.js';
 import { offerCalendar } from '../features/calendar-prompt.js';
-import { daysFromToday, toCalendarEvent } from './common.js';
+import { buildICS, openInCalendar, shareICS, isIOS } from '../features/ics.js';
+import { daysFromToday, toCalendarEvent, horseName } from './common.js';
 
 const sortKey = a => `${a.date}T${a.time || '23:59'}`;
 export const upcoming = () => store.field('appointments').filter(a => a.date >= todayKey()).sort((a, b) => sortKey(a).localeCompare(sortKey(b)));
@@ -83,6 +84,24 @@ function onSubmit(e) {
   closeSheet('appointmentSheet');
   if (item.date >= todayKey()) offerCalendar(toCalendarEvent(item), { heading: existing ? 'Rendez-vous modifié' : 'Rendez-vous enregistré' });
   else toast(existing ? 'Rendez-vous modifié' : 'Rendez-vous ajouté');
+}
+
+/** Exporte tous les rendez-vous à venir dans un seul fichier .ics (Outlook, Google Agenda, Calendrier). */
+export async function exportUpcoming() {
+  const list = upcoming();
+  if (!list.length) return toast('Aucun rendez-vous à venir à exporter.', { type: 'info' });
+  const ics = buildICS(list.map(toCalendarEvent));
+  const name = `rendez-vous-${horseName()}`;
+  // iPhone : feuille de partage pour choisir Outlook, Calendrier, Mail…
+  if (isIOS()) {
+    try {
+      if (await shareICS(ics, name)) return;
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+    }
+  }
+  const mode = openInCalendar(ics, name);
+  if (mode === 'download') toast(`${list.length} rendez-vous exportés. Dans Outlook : Ajouter un calendrier → Charger à partir d’un fichier.`, { type: 'info', duration: 6000 });
 }
 
 async function remove(id) {
