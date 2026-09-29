@@ -1,0 +1,86 @@
+/* =========================================================
+   IDENTITÉ « MON ESPACE ÉQUIN » — cuir, cognac et sable
+   Surcharge les tokens communs (tokens.css).
+   ========================================================= */
+:root {
+  --bg: #1c1815;
+  --bg-2: #221d19;
+  --surface: rgba(43, 37, 32, .74);
+  --surface-solid: #2a241f;
+  --surface-2: rgba(255, 240, 225, .04);
+  --surface-3: rgba(255, 240, 225, .08);
+  --field: rgba(255, 240, 225, .05);
+  --border: rgba(255, 240, 225, .08);
+  --border-strong: rgba(255, 240, 225, .15);
+  --text: #f5efe7;
+  --text-2: #c4b6a7;
+  --text-3: #8f8376;
+
+  --accent: #d6ab80;
+  --accent-2: #b98a60;
+  --accent-ink: #2a1b0f;
+  --accent-soft: rgba(214, 171, 128, .14);
+  --gradient-accent: linear-gradient(135deg, #e0b98f 0%, #b98a60 100%);
+  --gradient-hero: radial-gradient(120% 120% at 90% 0%, rgba(214, 171, 128, .22) 0%, rgba(214, 171, 128, 0) 55%), linear-gradient(150deg, #3a3029 0%, #2a231e 60%, #221c18 100%);
+  --shadow-accent: 0 8px 22px -10px rgba(214, 171, 128, .55);
+
+  --blue: #a9bccf;
+  --blue-soft: rgba(169, 188, 207, .12);
+  --violet: #bfb0d6;
+  --violet-soft: rgba(191, 176, 214, .12);
+  --amber: #e2bf7d;
+  --amber-soft: rgba(226, 191, 125, .13);
+  --green: #a3b893;
+  --green-soft: rgba(163, 184, 147, .14);
+  --danger: #e3907f;
+  --danger-soft: rgba(227, 144, 127, .13);
+
+  --ambient-1: rgba(214, 171, 128, .09);
+  --ambient-2: rgba(163, 184, 147, .05);
+  --ambient-3: rgba(0, 0, 0, 0);
+
+  /* Palette des graphiques (validée contraste et daltonisme) */
+  --series-1: #5e97d0; --series-2: #c67e55; --series-3: #33a795; --series-4: #ad8e3e;
+  --series-5: #c2779b; --series-6: #76a15e; --series-7: #9187ce; --series-8: #ca786e;
+}
+
+:root[data-theme="light"] {
+  --bg: #f5f0e9;
+  --bg-2: #efe8df;
+  --surface: rgba(255, 253, 249, .88);
+  --surface-solid: #fffdf9;
+  --surface-2: rgba(80, 55, 35, .035);
+  --surface-3: rgba(80, 55, 35, .07);
+  --field: #fffdf9;
+  --border: rgba(80, 55, 35, .1);
+  --border-strong: rgba(80, 55, 35, .18);
+  --text: #332b25;
+  --text-2: #6e6258;
+  --text-3: #9a8d80;
+
+  --accent: #8e6545;
+  --accent-2: #a97c57;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(142, 101, 69, .1);
+  --gradient-accent: linear-gradient(135deg, #b88c65 0%, #8e6545 100%);
+  --gradient-hero: radial-gradient(120% 120% at 90% 0%, rgba(184, 140, 101, .2) 0%, rgba(184, 140, 101, 0) 55%), linear-gradient(150deg, #fbf6ef 0%, #f3ebe0 100%);
+  --shadow-accent: 0 8px 20px -10px rgba(142, 101, 69, .5);
+
+  --blue: #4f6a86;
+  --blue-soft: rgba(79, 106, 134, .09);
+  --violet: #6a5b8a;
+  --violet-soft: rgba(106, 91, 138, .09);
+  --amber: #8f6a1c;
+  --amber-soft: rgba(143, 106, 28, .1);
+  --green: #5b7650;
+  --green-soft: rgba(91, 118, 80, .1);
+  --danger: #b5594c;
+  --danger-soft: rgba(181, 89, 76, .09);
+
+  --ambient-1: rgba(184, 140, 101, .1);
+  --ambient-2: rgba(0, 0, 0, 0);
+  --ambient-3: rgba(0, 0, 0, 0);
+
+  --series-1: #4c84bc; --series-2: #b26c44; --series-3: #149483; --series-4: #9a7c2a;
+  --series-5: #af6589; --series-6: #648e4c; --series-7: #8075ba; --series-8: #b7665c;
+}

@@ -3,8 +3,8 @@
   "short_name": "Mon espace équin",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#eee9e2",
-  "theme_color": "#5b4638",
+  "background_color": "#1c1815",
+  "theme_color": "#1c1815",
   "icons": [
     {
       "src": "icon-192.png",
