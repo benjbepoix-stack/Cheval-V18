@@ -1,4 +1,6 @@
-# Mon espace équin
+# Cavalia
+
+_Anciennement « Mon espace équin »._
 
 Application web (PWA) de suivi de chevaux : rendez-vous, finances, planning d'activités et fiche.
 HTML/CSS/JavaScript purs (modules ES, sans étape de build) + Firebase gratuit (Auth e-mail et Realtime Database).

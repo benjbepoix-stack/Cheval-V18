@@ -1,6 +1,6 @@
 {
-  "name": "Mon espace équin",
-  "short_name": "Mon espace équin",
+  "name": "Cavalia",
+  "short_name": "Cavalia",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#1c1815",

@@ -28,7 +28,7 @@ function renderChrome() {
   const name = store.activeId() ? horseName() : 'Aucun cheval';
   $('#headerTitle').textContent = name;
   $('#profileTabLabel').textContent = store.activeId() ? name : 'Fiche';
-  document.title = store.activeId() ? `${name} · Mon espace équin` : 'Mon espace équin';
+  document.title = store.activeId() ? `${name} · Cavalia` : 'Cavalia';
 }
 
 const renderCurrent = () => {

@@ -12,7 +12,7 @@
  */
 import { combine, isTime } from '../core/dates.js';
 
-const PRODID = '-//Mon espace equin//Rendez-vous//FR';
+const PRODID = '-//Cavalia//Rendez-vous//FR';
 const DEFAULT_DURATION_MIN = 60;
 
 const pad = n => String(n).padStart(2, '0');
