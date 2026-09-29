@@ -76,6 +76,7 @@
     <button type="button" class="tabbar__item" data-view="financeView"><span data-icon="coins"></span><span>Finances</span></button>
     <button type="button" class="tabbar__item" data-view="planningView"><span data-icon="calendar"></span><span>Planning</span></button>
     <button type="button" class="tabbar__item" data-view="profileView"><span data-icon="horse"></span><span id="profileTabLabel">Fiche</span></button>
+    <button type="button" class="tabbar__item" data-view="contactsView"><span data-icon="contacts"></span><span>Contacts</span></button>
   </nav>
 
   <main class="app" id="main" tabindex="-1">
@@ -134,7 +135,25 @@
 
     <!-- ================= PLANNING ================= -->
     <section id="planningView" class="view" hidden>
-      <section class="card week">
+      <div class="segmented" role="tablist" id="planningMode">
+        <button type="button" role="tab" data-mode="month" aria-selected="true">Calendrier</button>
+        <button type="button" role="tab" data-mode="week" aria-selected="false">Semaine</button>
+      </div>
+      <section class="card cal" id="calendarCard">
+        <header class="card__head">
+          <div><h2 class="card__title" id="calTitle">Calendrier</h2><p class="card__sub" id="calSub"></p></div>
+          <div class="chart-steps">
+            <button type="button" class="icon-btn icon-btn--sm" data-cal-step="-1" aria-label="Mois précédent"><span data-icon="chevronLeft" data-size="18"></span></button>
+            <button type="button" class="chip-btn" data-cal-step="0">Aujourd’hui</button>
+            <button type="button" class="icon-btn icon-btn--sm" data-cal-step="1" aria-label="Mois suivant"><span data-icon="chevronRight" data-size="18"></span></button>
+          </div>
+        </header>
+        <div class="cal__weekdays" aria-hidden="true"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span></div>
+        <div class="cal__grid" id="calGrid" role="grid" aria-labelledby="calTitle"></div>
+        <div class="cal__legend" aria-hidden="true"><span><i class="cal-mark cal-mark--apt"></i>Rendez-vous</span><span><i class="cal-mark cal-mark--act"></i>Activité</span><span><i class="cal-mark cal-mark--exp"></i>Dépense</span></div>
+        <div class="cal-detail" id="calDay" aria-live="polite"></div>
+      </section>
+      <section class="card week" id="weekCard" hidden>
         <header class="card__head">
           <div><h2 class="card__title" id="weekTitle">Cette semaine</h2><p class="card__sub" id="weekSub"></p></div>
           <div class="chart-steps">
@@ -182,6 +201,17 @@
       <section class="section account">
         <p class="account__email" id="accountEmail"></p>
         <button type="button" class="btn btn--soft btn--block" id="logoutBtn">Se déconnecter</button>
+      </section>
+    </section>
+    <!-- ================= CONTACTS ================= -->
+    <section id="contactsView" class="view" hidden>
+      <div id="contactsUrgent"></div>
+      <section class="section">
+        <header class="section__head">
+          <div><h2 class="section__title">Mes contacts</h2><p class="card__sub">Communs à tous vos chevaux</p></div>
+          <button type="button" class="carrot" data-open="contact" aria-label="Ajouter un contact" title="Ajouter un contact">🥕</button>
+        </header>
+        <div class="stack" id="contactsList"></div>
       </section>
     </section>
   </main>
@@ -299,6 +329,23 @@
   </div>
 
   <!-- Export calendrier iOS -->
+  <div class="sheet-backdrop" id="contactSheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="contactTitle" tabindex="-1">
+      <div class="sheet__grabber" aria-hidden="true"></div>
+      <header class="sheet__head"><h2 class="sheet__title" id="contactTitle">Nouveau contact</h2><button type="button" class="icon-btn" data-close aria-label="Fermer"><span data-icon="close"></span></button></header>
+      <form class="form sheet__scroll" id="contactForm" novalidate>
+        <input type="hidden" name="editId">
+        <div class="field"><label class="field__label" for="coRole">Rôle</label><select class="input select" id="coRole" name="role"></select></div>
+        <div class="field"><label class="field__label" for="coName">Nom</label><input class="input" id="coName" name="name" maxlength="80" placeholder="Ex. Dr Martin — Clinique du Val" autocomplete="off"></div>
+        <div class="field"><label class="field__label" for="coPhone">Téléphone</label><input class="input" id="coPhone" name="phone" type="tel" inputmode="tel" maxlength="30" placeholder="06 12 34 56 78" autocomplete="off"></div>
+        <div class="field"><label class="field__label" for="coEmail">E-mail <span class="field__opt">(facultatif)</span></label><input class="input" id="coEmail" name="email" type="email" inputmode="email" maxlength="120" autocomplete="off"></div>
+        <div class="field"><label class="field__label" for="coNote">Adresse, horaires, infos <span class="field__opt">(facultatif)</span></label><textarea class="input textarea" id="coNote" name="note" maxlength="500" rows="2" placeholder="Ex. Urgences 24 h/24 au même numéro"></textarea></div>
+        <div class="form-actions"><button type="button" class="btn btn--ghost" data-close>Annuler</button><button type="submit" class="btn btn--primary">Enregistrer</button></div>
+        <button type="button" class="btn btn--ghost btn--danger-text" id="contactDelete" hidden><span data-icon="trash" data-size="18"></span><span>Supprimer le contact</span></button>
+      </form>
+    </div>
+  </div>
+
   <div class="sheet-backdrop sheet-backdrop--dialog" id="calendarSheet" hidden>
     <div class="sheet sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="calendarTitle" tabindex="-1" id="calendarContent"></div>
   </div>

@@ -25,6 +25,7 @@ export const REST = 'Repos';
 export const EXPENSE_TYPES = ['Vétérinaire', 'Dentiste équin', 'Ostéopathe', 'Masseuse', 'Sellier', 'Maréchal-ferrant', 'Matériel', 'Pension', 'Alimentation', 'Concours', 'Transport', 'Autre'];
 export const APPOINTMENT_TYPES = ['Maréchal-ferrant', 'Vétérinaire', 'Dentiste', 'Ostéopathe', 'Masseuse', 'Sellier', 'Vaccination', 'Concours', 'Autre'];
 export const BREEDS = ['Selle Français', 'Anglo-Arabe', 'Pur-sang', 'Arabe', 'Lusitanien', 'PRE', 'KWPN', 'Hanovrien', 'Holsteiner', 'Oldenbourg', 'BWP', 'Connemara', 'Poney Français de Selle', 'Welsh', 'Appaloosa', 'Quarter Horse', 'Frison', 'Comtois', 'Autre'];
+export const CONTACT_ROLES = ['Vétérinaire', 'Maréchal-ferrant', 'Dentiste équin', 'Ostéopathe', 'Masseuse', 'Sellier', 'Pension / écurie', 'Moniteur / coach', 'Transporteur', 'Assurance', 'Autre'];
 export const INSURANCE = { none: 'Pas de remboursement', pending: 'En attente du remboursement', paid: 'Remboursé' };
 
 export const horseKey = (id, field) => `horse_${id}_${field}`;
@@ -105,6 +106,14 @@ export function normalizeNotes(raw) {
     .sort(byDateDesc);
 }
 
+/** Contacts : communs à tous les chevaux (clé « contacts »). */
+export function normalizeContacts(raw) {
+  return asArray(raw)
+    .filter(isObj)
+    .map(c => ({ id: keepId(c.id), name: str(c.name, 80).trim(), role: CONTACT_ROLES.includes(c.role) ? c.role : 'Autre', phone: str(c.phone, 30).trim(), email: str(c.email, 120).trim(), note: str(c.note, 500) }))
+    .filter(c => c.id !== null && c.name);
+}
+
 const FIELD_NORMALIZERS = {
   profile: normalizeProfile,
   finances: normalizeFinances,
@@ -119,13 +128,14 @@ export function normalizeKey(key, value) {
   if (key === 'horses') return normalizeHorses(value);
   if (key === 'activeHorseId') return typeof value === 'string' ? value : null;
   if (key === 'theme') return value === 'light' ? 'light' : 'dark';
+  if (key === 'contacts') return normalizeContacts(value);
   const hk = parseHorseKey(key);
   if (hk) return FIELD_NORMALIZERS[hk.field](value);
   return value;
 }
 
 /** Clé reconnue par l'application ? (les autres sont ignorées) */
-export const isKnownKey = key => key === 'horses' || key === 'activeHorseId' || key === 'theme' || Boolean(parseHorseKey(key));
+export const isKnownKey = key => key === 'horses' || key === 'contacts' || key === 'activeHorseId' || key === 'theme' || Boolean(parseHorseKey(key));
 
 /** Identifiant numérique unique (compatible avec les anciennes versions). */
 export function numericId(existing = []) {
