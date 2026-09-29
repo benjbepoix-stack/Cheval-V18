@@ -15,9 +15,10 @@ import { initAppointments, openAppointment, renderPastSheet } from './views/appo
 import { initFinance, renderFinance, openExpense } from './views/finance.js';
 import { initPlanning, renderPlanning, openActivities } from './views/planning.js';
 import { initProfile, renderProfile, openHorse, openNote, openSwitcher } from './views/profile.js';
+import { initContacts, renderContacts, openContact } from './views/contacts.js';
 import { horseName } from './views/common.js';
 
-const VIEWS = { homeView: renderHome, financeView: renderFinance, planningView: renderPlanning, profileView: renderProfile };
+const VIEWS = { homeView: renderHome, financeView: renderFinance, planningView: renderPlanning, profileView: renderProfile, contactsView: renderContacts };
 const VIEW_KEY = 'equin_last_view';
 const LAST_UID = 'equin_last_uid';
 let currentView = 'homeView';
@@ -194,6 +195,7 @@ function onOpen(e) {
   } else if (what === 'activities') openActivities();
   else if (what === 'horse') openHorse(false);
   else if (what === 'note') openNote();
+  else if (what === 'contact') openContact();
 }
 
 async function init() {
@@ -208,6 +210,7 @@ async function init() {
   initFinance();
   initPlanning();
   initProfile();
+  initContacts();
   initAuthUI();
 
   store.subscribe(keys => {

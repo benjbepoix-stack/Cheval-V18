@@ -19,7 +19,7 @@ let offset = 0; // décalage de la fenêtre de 6 mois (0 = mois récents)
 const monthKeyOf = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 const shift = (key, delta) => monthKeyOf(new Date(Number(key.slice(0, 4)), Number(key.slice(5, 7)) - 1 + delta, 1));
 
-function expenseRow(x) {
+export function expenseRow(x) {
   const refund = refundOf(x);
   const tags = [
     `<span class="tag ${x.status === 'paid' ? 'tag--ok' : 'tag--warn'}">${x.status === 'paid' ? 'Payée' : 'À payer'}</span>`,
@@ -106,7 +106,7 @@ function syncRefundField() {
   f.querySelector('[data-for="refund"]').hidden = f.elements.insurance.value === 'none';
 }
 
-export function openExpense(id = null) {
+export function openExpense(id = null, { date } = {}) {
   if (!store.activeId()) return toastError('Ajoutez d’abord un cheval.');
   const x = id !== null ? store.field('finances').find(e => String(e.id) === String(id)) : null;
   const f = $('#expenseForm');
@@ -115,7 +115,7 @@ export function openExpense(id = null) {
   f.elements.editId.value = x ? x.id : '';
   f.elements.type.value = x?.type || EXPENSE_TYPES[0];
   f.elements.name.value = x?.name || '';
-  f.elements.date.value = x?.date || todayKey();
+  f.elements.date.value = x?.date || date || todayKey();
   f.elements.amount.value = x ? amountInput(x.amount) : '';
   f.elements.status.value = x?.status || 'paid';
   f.elements.insurance.value = x?.insurance || 'none';

@@ -1,5 +1,5 @@
 /* Planning : une activité par jour, répartition mensuelle, gestion des activités. */
-import { $, esc } from '../core/utils.js';
+import { $, $$, esc } from '../core/utils.js';
 import { addDays, dateKey, mondayOf, todayKey, formatDate } from '../core/dates.js';
 import * as store from '../core/store.js';
 import { REST } from '../core/schema.js';
@@ -9,9 +9,11 @@ import { icon } from '../ui/icons.js';
 import { renderDonut, PALETTE } from '../ui/charts.js';
 import { activityIcon } from '../ui/equine-icons.js';
 import { capitalize, horseName } from './common.js';
+import { renderCalendar, initCalendar } from './calendar.js';
 
 let weekStart = mondayOf(new Date());
 let monthOffset = 0;
+let mode = 'month'; // month (calendrier) | week
 
 /* ---------- Semaine ---------- */
 function renderWeek() {
@@ -70,7 +72,11 @@ function renderMonth() {
 }
 
 export function renderPlanning() {
-  renderWeek();
+  $$('#planningMode [data-mode]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === mode)));
+  $('#calendarCard').hidden = mode !== 'month';
+  $('#weekCard').hidden = mode !== 'week';
+  if (mode === 'month') renderCalendar();
+  else renderWeek();
   renderMonth();
   if (!$('#activitySheet').hidden) renderActivityList();
 }
@@ -128,6 +134,13 @@ async function onActivityAction(e) {
 }
 
 export function initPlanning() {
+  initCalendar();
+  $('#planningMode').addEventListener('click', e => {
+    const b = e.target.closest('[data-mode]');
+    if (!b || b.dataset.mode === mode) return;
+    mode = b.dataset.mode;
+    renderPlanning();
+  });
   document.addEventListener('click', e => {
     const w = e.target.closest('[data-week]');
     if (!w) return;

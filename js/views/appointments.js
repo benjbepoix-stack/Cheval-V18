@@ -41,7 +41,7 @@ export function renderPastSheet() {
 }
 
 /* ---------- Formulaire ---------- */
-export function openAppointment(id = null) {
+export function openAppointment(id = null, { date } = {}) {
   if (!store.activeId()) return toastError('Ajoutez d’abord un cheval.');
   const a = id !== null ? store.field('appointments').find(x => String(x.id) === String(id)) : null;
   const f = $('#appointmentForm');
@@ -50,7 +50,7 @@ export function openAppointment(id = null) {
   f.elements.editId.value = a ? a.id : '';
   f.elements.type.value = a?.type || APPOINTMENT_TYPES[0];
   f.elements.name.value = a?.name || '';
-  f.elements.date.value = a?.date || todayKey();
+  f.elements.date.value = a?.date || date || todayKey();
   f.elements.time.value = a?.time || '14:00';
   f.elements.place.value = a?.place || '';
   f.elements.note.value = a?.note || '';

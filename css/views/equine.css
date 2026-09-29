@@ -167,3 +167,81 @@ html.is-auth-pending body > :not(.auth):not(.sheet-backdrop):not(.toast-stack):n
 /* Tuiles de chiffres : montant sur une seule ligne */
 .stats-grid .stat strong { white-space: nowrap; overflow-wrap: normal; font-size: clamp(15px, 4.6vw, var(--fs-lg)); }
 .profile-note { font-weight: 500; font-size: var(--fs-md); line-height: 1.5; }
+
+/* ---------- Barre d'onglets à 5 entrées ---------- */
+.tabbar__item > span:last-child { max-width: 100%; padding: 0 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 360px) { .tabbar__item { font-size: 9.5px; } }
+
+/* ---------- Calendrier mensuel ---------- */
+.cal .card__head { flex-wrap: wrap; }
+.cal__weekdays, .cal__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.cal__weekdays { margin-bottom: 4px; }
+.cal__weekdays span { text-align: center; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+.cal-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  min-height: 50px;
+  padding: 7px 0 6px;
+  border-radius: 12px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.cal-day:hover { background: var(--surface-2); }
+.cal-day:active { transform: scale(.94); }
+.cal-day__num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font-size: var(--fs-sm); font-weight: 700; }
+.cal-day.is-past:not(.is-today) .cal-day__num { color: var(--text-2); }
+.cal-day.is-out { opacity: .38; }
+.cal-day.is-today .cal-day__num { background: var(--gradient-accent); color: var(--accent-ink); font-weight: 850; }
+.cal-day.is-selected { background: var(--accent-soft); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 55%, transparent); }
+.cal-day__marks { display: flex; gap: 3px; min-height: 6px; }
+.cal-mark { display: inline-block; width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.cal-mark--apt { background: var(--accent); }
+.cal-mark--act { background: var(--green); }
+.cal-mark--act.is-rest { background: transparent; box-shadow: inset 0 0 0 1.5px var(--text-3); }
+.cal-mark--exp { background: var(--blue); }
+.cal__legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin-top: var(--sp-3); font-size: var(--fs-xs); font-weight: 650; color: var(--text-3); }
+.cal__legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+.cal-detail { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-3); animation: fade-in var(--dur) var(--ease); }
+.cal-detail__title { font-size: var(--fs-lg); font-weight: 800; }
+.cal-detail__activity { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: var(--sp-2); }
+.cal-detail__label { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); margin-bottom: -6px; }
+.cal-detail__empty { color: var(--text-3); font-size: var(--fs-sm); }
+.cal-detail__actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
+.card--flat { box-shadow: none; background: var(--surface-2); }
+
+/* ---------- Contacts ---------- */
+.urgent { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-4); background: var(--gradient-hero); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.urgent__icon { display: grid; place-items: center; width: 48px; height: 48px; flex: none; border-radius: 16px; background: var(--accent-soft); color: var(--accent); }
+.urgent__body { flex: 1; min-width: 0; }
+.urgent__kicker { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.urgent__name { font-size: var(--fs-md); font-weight: 800; overflow-wrap: anywhere; }
+.urgent__phone { color: var(--text-2); font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.urgent .btn { flex: none; }
+.urgent--empty .urgent__name { font-size: var(--fs-base, 15px); }
+
+.contact { display: flex; align-items: center; gap: var(--sp-2); padding: 12px 12px 12px 14px; }
+.contact__main { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--sp-3); text-align: left; }
+.contact__body { min-width: 0; display: flex; flex-direction: column; }
+.contact__role { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.contact__name { font-weight: 750; overflow-wrap: anywhere; }
+.contact__phone { color: var(--text-2); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.contact__note { color: var(--text-3); font-size: var(--fs-xs); margin-top: 2px; white-space: pre-line; overflow-wrap: anywhere; }
+.contact__actions { display: flex; gap: 4px; flex: none; }
+a.icon-btn, a.btn { text-decoration: none; }
+.icon-btn--accent { background: var(--gradient-accent); color: var(--accent-ink); box-shadow: var(--shadow-accent); }
+.icon-btn--accent:hover { color: var(--accent-ink); }
+
+@media (max-width: 380px) {
+  .cal-day { min-height: 44px; padding-top: 5px; }
+  .cal-day__num { width: 26px; height: 26px; }
+  .contact { flex-wrap: wrap; }
+  .contact__actions { width: 100%; justify-content: flex-end; }
+  .urgent { flex-wrap: wrap; }
+  .urgent .btn { width: 100%; }
+}

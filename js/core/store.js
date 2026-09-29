@@ -68,6 +68,7 @@ export const get = key => data[key];
 export const horses = () => data.horses || [];
 export const activeId = () => data.activeHorseId || null;
 export const theme = () => data.theme || 'dark';
+export const contacts = () => structuredClone(data.contacts || []);
 export const activeHorse = () => horses().find(h => h.id === activeId()) || null;
 
 const DEFAULTS = { profile: () => normalizeProfile(null), finances: () => [], appointments: () => [], plans: () => ({}), activities: () => normalizeActivities(null), horseNotes: () => [] };
