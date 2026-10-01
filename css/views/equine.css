@@ -250,3 +250,12 @@ a.icon-btn, a.btn { text-decoration: none; }
   .urgent { flex-wrap: wrap; }
   .urgent .btn { width: 100%; }
 }
+
+/* En-tête : le nom du cheval ne déborde plus sur l'indicateur de synchronisation */
+.horse-switch { flex: 1 1 auto; min-width: 0; max-width: 100%; }
+.horse-switch .topbar__title { display: flex; max-width: 100%; min-width: 0; }
+#headerTitle { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.horse-switch__chevron { flex: none; }
+/* Synchronisé : pastille réduite à l'icône (le texte reste pour les autres états) */
+.sync-pill[data-status="online"] span:last-child { display: none; }
+.sync-pill[data-status="online"] { width: 34px; padding: 0; justify-content: center; }
