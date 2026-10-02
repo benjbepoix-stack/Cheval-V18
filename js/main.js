@@ -248,6 +248,15 @@ async function init() {
     getSnapshot: store.cloudSnapshot
   });
   if (!ok) showAuth('offline');
+
+  // Mises à jour : voir sw.js. Un nouveau service worker recharge la page une fois.
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    const hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (hadController) location.reload();
+    });
+    navigator.serviceWorker.register('sw.js').catch(error => console.warn('[sw] enregistrement impossible', error));
+  }
 }
 
 init();

@@ -1,8 +1,8 @@
 /* Rendez-vous : liste, formulaire, historique, export calendrier. */
 import { $, esc } from '../core/utils.js';
-import { formatKey, todayKey, isTime } from '../core/dates.js';
+import { formatKey, todayKey, isTime, addMonthsKey, addDays, dateKey } from '../core/dates.js';
 import * as store from '../core/store.js';
-import { APPOINTMENT_TYPES, numericId } from '../core/schema.js';
+import { APPOINTMENT_TYPES, REPEAT_MONTHS, numericId } from '../core/schema.js';
 import { rules, validate, showErrors, clearErrors, formValues } from '../core/validation.js';
 import { openSheet, closeSheet, confirmDialog } from '../ui/dialog.js';
 import { toast, toastError } from '../ui/toast.js';
@@ -42,19 +42,20 @@ export function renderPastSheet() {
 }
 
 /* ---------- Formulaire ---------- */
-export function openAppointment(id = null, { date } = {}) {
+export function openAppointment(id = null, { date, type, repeatMonths } = {}) {
   if (!store.activeId()) return toastError('Ajoutez d’abord un cheval.');
   const a = id !== null ? store.field('appointments').find(x => String(x.id) === String(id)) : null;
   const f = $('#appointmentForm');
   f.reset();
   clearErrors(f);
   f.elements.editId.value = a ? a.id : '';
-  f.elements.type.value = a?.type || APPOINTMENT_TYPES[0];
+  f.elements.type.value = a?.type || type || APPOINTMENT_TYPES[0];
   f.elements.name.value = a?.name || '';
   f.elements.date.value = a?.date || date || todayKey();
   f.elements.time.value = a?.time || '14:00';
   f.elements.place.value = a?.place || '';
   f.elements.note.value = a?.note || '';
+  f.elements.repeatMonths.value = String(a?.repeatMonths ?? repeatMonths ?? 0);
   $('#appointmentTitle').textContent = a ? 'Modifier le rendez-vous' : 'Nouveau rendez-vous';
   $('#appointmentDelete').hidden = !a;
   openSheet('appointmentSheet', { focus: false });
@@ -77,7 +78,17 @@ function onSubmit(e) {
   if (!valid) return showErrors(f, errors);
   const list = store.field('appointments');
   const existing = v.editId !== '' ? list.find(x => String(x.id) === v.editId) : null;
-  const item = { ...(existing || {}), id: existing ? existing.id : numericId(list), type: v.type, name: v.name, date: v.date, time: isTime(v.time) ? v.time : '', place: v.place, note: v.note };
+  const item = {
+    ...(existing || {}),
+    id: existing ? existing.id : numericId(list),
+    type: v.type,
+    name: v.name,
+    date: v.date,
+    time: isTime(v.time) ? v.time : '',
+    place: v.place,
+    note: v.note,
+    repeatMonths: REPEAT_MONTHS[Number(v.repeatMonths)] ? Number(v.repeatMonths) : 0
+  };
   if (existing) list[list.indexOf(existing)] = item;
   else list.push(item);
   store.setField('appointments', list);
@@ -104,6 +115,30 @@ export async function exportUpcoming() {
   if (mode === 'download') toast(`${list.length} rendez-vous exportés. Dans Outlook : Ajouter un calendrier → Charger à partir d’un fichier.`, { type: 'info', duration: 6000 });
 }
 
+const REMINDER_HORIZON_DAYS = 30;
+
+/**
+ * Rappels dus ou proches (horizon : 30 jours) pour les types de rendez-vous
+ * ayant un rappel actif : pour chaque type, on part de son rendez-vous le
+ * plus récent et on calcule l'échéance = sa date + l'intervalle de rappel.
+ * Ignoré si un rendez-vous de ce type est déjà planifié à partir de cette
+ * échéance (déjà pris en compte), ou si l'échéance est encore lointaine.
+ */
+export function dueReminders() {
+  const list = store.field('appointments');
+  const horizon = dateKey(addDays(new Date(), REMINDER_HORIZON_DAYS));
+  const latestByType = new Map();
+  list.forEach(a => {
+    if (!a.repeatMonths) return;
+    const cur = latestByType.get(a.type);
+    if (!cur || a.date > cur.date) latestByType.set(a.type, a);
+  });
+  return [...latestByType.values()]
+    .map(a => ({ ...a, dueDate: addMonthsKey(a.date, a.repeatMonths) }))
+    .filter(r => r.dueDate <= horizon && !list.some(x => x.type === r.type && x.id !== r.id && x.date >= r.dueDate))
+    .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+}
+
 async function remove(id) {
   const list = store.field('appointments');
   const a = list.find(x => String(x.id) === String(id));
@@ -116,9 +151,16 @@ async function remove(id) {
 
 export function initAppointments() {
   $('#apType').innerHTML = APPOINTMENT_TYPES.map(t => `<option>${esc(t)}</option>`).join('');
+  $('#apRepeat').innerHTML = Object.entries(REPEAT_MONTHS).map(([v, label]) => `<option value="${v}">${esc(label)}</option>`).join('');
   $('#appointmentForm').addEventListener('submit', onSubmit);
   $('#appointmentDelete').addEventListener('click', () => remove($('#appointmentForm').elements.editId.value));
   document.addEventListener('click', e => {
+    const due = e.target.closest('[data-due-action="plan"]');
+    if (due) {
+      const row = due.closest('[data-due-type]');
+      openAppointment(null, { type: row.dataset.dueType, date: row.dataset.dueDate, repeatMonths: Number(row.dataset.dueRepeat) });
+      return;
+    }
     const row = e.target.closest('[data-appointment]');
     if (!row) return;
     // Un clic sur le texte ouvre la modification (la suppression se fait depuis le formulaire).

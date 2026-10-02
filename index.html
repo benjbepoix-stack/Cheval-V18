@@ -86,6 +86,10 @@
       <section class="hero card" id="hero"></section>
       <div id="nextAppointment"></div>
       <div class="stats-grid section" id="homeStats"></div>
+      <section class="section" id="dueRemindersSection" hidden>
+        <header class="section__head"><h2 class="section__title">Rappels à venir</h2></header>
+        <div class="card card--list" id="dueRemindersList"></div>
+      </section>
       <section class="section">
         <header class="section__head">
           <h2 class="section__title">Rendez-vous à venir</h2>
@@ -261,6 +265,7 @@
           <div class="field"><label class="field__label" for="apTime">Heure</label><input class="input" id="apTime" type="time" name="time"></div>
         </div>
         <div class="field"><label class="field__label" for="apPlace">Lieu / prestataire <span class="field__opt">(facultatif)</span></label><input class="input" id="apPlace" name="place" maxlength="120" autocomplete="off"></div>
+        <div class="field"><label class="field__label" for="apRepeat">Rappel <span class="field__opt">(vaccins, vermifuges…)</span></label><select class="input select" id="apRepeat" name="repeatMonths"></select></div>
         <div class="field"><label class="field__label" for="apNote">Note <span class="field__opt">(facultatif)</span></label><textarea class="input textarea" id="apNote" name="note" maxlength="1000" rows="2"></textarea></div>
         <div class="form-actions"><button type="button" class="btn btn--ghost" data-close>Annuler</button><button type="submit" class="btn btn--primary">Enregistrer</button></div>
         <button type="button" class="btn btn--ghost btn--danger-text" id="appointmentDelete" hidden><span data-icon="trash" data-size="18"></span><span>Supprimer le rendez-vous</span></button>

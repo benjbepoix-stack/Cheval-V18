@@ -5,7 +5,7 @@ import * as store from '../core/store.js';
 import { icon } from '../ui/icons.js';
 import { serviceIcon } from '../ui/equine-icons.js';
 import { euroRound, netExpense, ageFromBirth, horseName, daysFromToday } from './common.js';
-import { upcoming, past, appointmentRow } from './appointments.js';
+import { upcoming, past, appointmentRow, dueReminders, openAppointment } from './appointments.js';
 
 function renderHero() {
   const p = store.field('profile');
@@ -54,10 +54,28 @@ function renderStats() {
     .join('');
 }
 
+function renderDueReminders() {
+  const due = store.activeId() ? dueReminders() : [];
+  $('#dueRemindersSection').hidden = !due.length;
+  if (!due.length) return;
+  $('#dueRemindersList').innerHTML = due
+    .map(r => {
+      const d = daysFromToday(r.dueDate);
+      const late = d < 0;
+      return `<div class="row" data-due-type="${esc(r.type)}" data-due-date="${esc(r.dueDate)}" data-due-repeat="${esc(r.repeatMonths)}">
+        <span class="row__icon ${late ? '' : 'is-muted'}">${serviceIcon(r.type)}</span>
+        <div class="row__body"><div class="row__title">${esc(r.type)}</div><div class="row__sub">${late ? 'Échéance dépassée' : 'À prévoir'} · ${esc(formatKey(r.dueDate, { day: 'numeric', month: 'long', year: 'numeric' }))}</div></div>
+        <button type="button" class="chip-btn" data-due-action="plan">Planifier</button>
+      </div>`;
+    })
+    .join('');
+}
+
 export function renderHome() {
   renderHero();
   renderNext();
   renderStats();
+  renderDueReminders();
   const up = upcoming();
   $('#upcomingList').innerHTML = up.length ? up.map(a => appointmentRow(a)).join('') : '<div class="empty-state"><p>Aucun rendez-vous à venir.</p></div>';
   const ps = past();

@@ -8,7 +8,7 @@
  *   theme               'dark' | 'light'
  *   horse_<id>_profile      { name, birth, discipline, breed, stable, note }
  *   horse_<id>_finances     [{ id, type, name, date, amount(€), status, note, insurance, refundAmount }]
- *   horse_<id>_appointments [{ id, type, name, date, time, place, note }]
+ *   horse_<id>_appointments [{ id, type, name, date, time, place, note, repeatMonths }]
  *   horse_<id>_plans        { 'AAAA-MM-JJ': { type } }
  *   horse_<id>_activities   ['Repos', …]
  *   horse_<id>_horseNotes   [{ id, date, text }]
@@ -27,6 +27,8 @@ export const APPOINTMENT_TYPES = ['Maréchal-ferrant', 'Vétérinaire', 'Dentist
 export const BREEDS = ['Selle Français', 'Anglo-Arabe', 'Pur-sang', 'Arabe', 'Lusitanien', 'PRE', 'KWPN', 'Hanovrien', 'Holsteiner', 'Oldenbourg', 'BWP', 'Connemara', 'Poney Français de Selle', 'Welsh', 'Appaloosa', 'Quarter Horse', 'Frison', 'Comtois', 'Autre'];
 export const CONTACT_ROLES = ['Vétérinaire', 'Maréchal-ferrant', 'Dentiste équin', 'Ostéopathe', 'Masseuse', 'Sellier', 'Pension / écurie', 'Moniteur / coach', 'Transporteur', 'Assurance', 'Autre'];
 export const INSURANCE = { none: 'Pas de remboursement', pending: 'En attente du remboursement', paid: 'Remboursé' };
+// Rappel récurrent (vaccins, vermifuges…) : 0 = aucun rappel.
+export const REPEAT_MONTHS = { 0: 'Jamais', 1: 'Tous les mois', 3: 'Tous les 3 mois', 6: 'Tous les 6 mois', 12: 'Tous les ans' };
 
 export const horseKey = (id, field) => `horse_${id}_${field}`;
 export const parseHorseKey = key => {
@@ -79,7 +81,16 @@ export function normalizeFinances(raw) {
 export function normalizeAppointments(raw) {
   return asArray(raw)
     .filter(isObj)
-    .map(x => ({ id: keepId(x.id), type: str(x.type, 40) || 'Autre', name: str(x.name, 120), date: isDateKey(x.date) ? x.date : '', time: isTime(x.time) ? x.time : '', place: str(x.place, 120), note: str(x.note, 1000) }))
+    .map(x => ({
+      id: keepId(x.id),
+      type: str(x.type, 40) || 'Autre',
+      name: str(x.name, 120),
+      date: isDateKey(x.date) ? x.date : '',
+      time: isTime(x.time) ? x.time : '',
+      place: str(x.place, 120),
+      note: str(x.note, 1000),
+      repeatMonths: REPEAT_MONTHS[Number(x.repeatMonths)] ? Number(x.repeatMonths) : 0
+    }))
     .filter(x => x.id !== null && x.date);
 }
 

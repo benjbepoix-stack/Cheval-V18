@@ -88,6 +88,17 @@ export function minutesLabel(total) {
   return `${h}h${pad(m)}`;
 }
 
+/** Ajoute des mois à une clé ISO (le 31 -> dernier jour du mois cible, ex. 31 janv. + 1 mois -> 28/29 févr.). */
+export function addMonthsKey(key, months) {
+  const d = fromKey(key);
+  if (!d || !months) return key;
+  const day = d.getDate();
+  const target = new Date(d.getFullYear(), d.getMonth() + months + 1, 0); // dernier jour du mois visé
+  d.setDate(1); // évite tout débordement de mois pendant le setMonth
+  d.setMonth(d.getMonth() + months, Math.min(day, target.getDate()));
+  return dateKey(d);
+}
+
 /** Compte à rebours lisible jusqu'à `target`. */
 export function countdown(target, now = new Date()) {
   const diff = target - now;
